@@ -466,6 +466,9 @@ export default {
     },
     KS_FileSystemManagerSaveFileSync(tempFilePath, filePath) {
         const fs = ks.getFileSystemManager();
+        if (filePath === "") {
+            return fs.saveFileSync(tempFilePath);
+        }
         return fs.saveFileSync(tempFilePath, filePath);
     },
     KS_FileSystemManagerCloseSync(option) {

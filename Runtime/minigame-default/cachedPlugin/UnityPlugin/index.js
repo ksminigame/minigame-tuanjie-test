@@ -1,4 +1,4 @@
-console.info("UnityPluginVersion: 51a0ad2103d2f3bccb2c8037d969326350c945cb");
+console.info("UnityPluginVersion: 2282a36cb9674c4cca12276a873eeb94a9a703ca");
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
@@ -12908,7 +12908,7 @@ var MonitorConfig = /** @class */ (function (_super) {
             var isInjectConfigEnabledAndForceEnabled = !!clonedMonitorConfiguration.INJECT_CONIFG &&
                 !!clonedMonitorConfiguration.FORCE_ENABLE;
             clonedMonitorConfiguration.enableMonitor =
-                (!(GameGlobalVars_1.default.isRelease) && !!clonedMonitorConfiguration.enableMonitor) ||
+                !!clonedMonitorConfiguration.enableMonitor ||
                     isInjectConfigEnabledAndForceEnabled;
             this.config = __assign(__assign({}, this.config), clonedMonitorConfiguration);
             this.config.SHOW_REPORT_MODAL =
@@ -18401,7 +18401,7 @@ var UnityManager = /** @class */ (function () {
         this.useCoverView = SystemEnvironmentVariables_1.default.pluginEnv.coverview;
         this.hideAfterCallmain = !!hideAfterCallmain;
         this.contextType = contextConfig.contextType || 1;
-        if (GameGlobalVars_1.default.unityNamespace.useWasmCodeSplit) {
+        if (GameGlobalVars_1.default.unityNamespace.useHostWasmCodeSplit) {
             this.codeType = Types_1.CodeType.codeSplit;
         }
         else {
@@ -18452,6 +18452,7 @@ var UnityManager = /** @class */ (function () {
         var gameWasmLoader = GameWasmLoader_1.default.getInstance();
         gameWasmLoader.init(this);
         AssetsLoader_1.default.init(this);
+        GameGlobalVars_1.default.unityNamespace.needDownloadDataPackage = AssetsLoader_1.default.needDownload;
         if (preloadDataList) {
             PreloadTaskManager_1.default.getInstance().init({ preloadList: preloadDataList });
         }
@@ -18832,8 +18833,8 @@ var UnityManager = /** @class */ (function () {
             sceneId: subWasmCompiler,
             costTime: matchExpression,
             dimension: {
-                useCodeSplit: this.codeType ? Utils_1.BooleanString.True : Utils_1.BooleanString.False,
-                needDownloadDataPackage: AssetsLoader_1.default.assetsLoadType !== Types_1.AssetsLoadType.AllCached ? Utils_1.BooleanString.True : Utils_1.BooleanString.False,
+                useCodeSplit: this.codeType ? "1" : "0",
+                needDownloadDataPackage: AssetsLoader_1.default.assetsLoadType !== Types_1.AssetsLoadType.AllCached ? "1" : "0",
             },
             metric: {}
         };
@@ -19406,8 +19407,8 @@ function excludeProperties(obj, excludeKeys) {
     return result;
 }
 var BooleanString = {
-    True: "0",
-    False: "1",
+    True: "1",
+    False: "0",
 };
 exports.BooleanString = BooleanString;
 function eventLog() {

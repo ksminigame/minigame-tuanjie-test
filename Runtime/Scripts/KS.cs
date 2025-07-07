@@ -1650,12 +1650,12 @@ namespace KSWASM
         /// <summary>
         /// 监听小游戏隐藏到后台事件。锁屏、按 HOME 键退到桌面、显示在聊天顶部等操作会触发此事件。
         /// </summary>
-        public static void OnHide(Action<GeneralCallbackResult> res)
+        public static void OnHide(Action res)
         {
             KSSDKManagerHandler.Instance.OnHide(res);
         }
 
-        public static void OffHide(Action<GeneralCallbackResult> res)
+        public static void OffHide(Action res)
         {
             KSSDKManagerHandler.Instance.OffHide(res);
         }

@@ -8,7 +8,7 @@
 // {
 // 	public class PackageUpdateManager
 // 	{
-// 		private const string packageName = "cn.kuaishou.minigame";
+// 		private const string packageName = "com.kuaishou.minigame";
 
 // 		private static ListRequest listRequest;
 // 		private static SearchRequest searchRequest;

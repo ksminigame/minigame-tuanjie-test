@@ -22,7 +22,7 @@ namespace KSWASM.editor
     {
         public override string GetSubplatformName()
         {
-            return "MiniHost:小游戏宿主";
+            return "KuaiShou:快手小游戏";
         }
 
         public override MiniGameSettings GetSubplatformSettings()
