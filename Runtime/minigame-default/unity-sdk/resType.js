@@ -597,7 +597,7 @@ export const ResType = {
         errMsg: 'string',
     },
     GetSettingSuccessCallbackResult: {
-        result: 'AuthSetting',
+        authSetting: 'AuthSetting',
         errMsg: 'string',
     },
     AuthSetting: {},

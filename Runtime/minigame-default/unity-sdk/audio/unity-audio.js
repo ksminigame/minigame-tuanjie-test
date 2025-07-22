@@ -937,12 +937,13 @@ export default {
             decompress = 1;
         }
         let soundClip;
-        if (decompress && WEBAudio.audioWebSupport) {
-            soundClip = jsAudioCreateUncompressedSoundClipFromCompressedAudio(audioData, ptr, length);
-        }
-        else {
+        // not support webAudio
+        // if (decompress && WEBAudio.audioWebSupport) {
+        //     soundClip = jsAudioCreateUncompressedSoundClipFromCompressedAudio(audioData, ptr, length);
+        // }
+        // else {
             soundClip = jsAudioCreateCompressedSoundClip(audioData, ptr, length);
-        }
+        // }
         WEBAudio.audioInstances[++WEBAudio.audioInstanceIdCounter] = soundClip;
         return WEBAudio.audioInstanceIdCounter;
     },

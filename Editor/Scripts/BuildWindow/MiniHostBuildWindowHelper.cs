@@ -514,7 +514,7 @@ namespace KSWASM.editor
 
     public class GuiUtil
     {
-        public static string m_AppIdDocLink = "https://minihost.tuanjie.cn/help/docs/quickstart/create-game";
+        public static string m_AppIdDocLink = "https://open.kuaishou.com/platform/console";
 
         public static void DrawGameIDField()
         {

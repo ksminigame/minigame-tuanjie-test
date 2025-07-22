@@ -24,7 +24,7 @@ internal class TouchData
 [RequireComponent(typeof(StandaloneInputModule))]
 public class KSTouchInputOverride : BaseInput
 {
-    private bool _isInitWechatSDK;
+    private bool _isInitKuaishouSDK;
     private readonly List<TouchData> _touches = new List<TouchData>();
     private StandaloneInputModule _standaloneInputModule = null;
 
@@ -38,7 +38,7 @@ public class KSTouchInputOverride : BaseInput
     {
         base.OnEnable();
         if (string.IsNullOrEmpty(KSWASM.KS.GetSystemInfoSync().platform)) return;
-        InitWechatTouchEvents();
+        InitKuaishouTouchEvents();
         if (_standaloneInputModule)
         {
             _standaloneInputModule.inputOverride = this;
@@ -48,30 +48,30 @@ public class KSTouchInputOverride : BaseInput
     protected override void OnDisable()
     {
         base.OnDisable();
-        UnregisterWechatTouchEvents();
+        UnregisterKuaishouTouchEvents();
         if (_standaloneInputModule)
         {
             _standaloneInputModule.inputOverride = null;
         }
     }
 
-    private void InitWechatTouchEvents()
+    private void InitKuaishouTouchEvents()
     {
-        if (!_isInitWechatSDK)
+        if (!_isInitKuaishouSDK)
         {
             KS.InitSDK((code) =>
             {
-                _isInitWechatSDK = true;
-                RegisterWechatTouchEvents();
+                _isInitKuaishouSDK = true;
+                RegisterKuaishouTouchEvents();
             });
         }
         else
         {
-            RegisterWechatTouchEvents();
+            RegisterKuaishouTouchEvents();
         }
     }
 
-    private void RegisterWechatTouchEvents()
+    private void RegisterKuaishouTouchEvents()
     {
         KS.OnTouchStart(OnKsTouchStart);
         KS.OnTouchMove(OnKsTouchMove);
@@ -79,7 +79,7 @@ public class KSTouchInputOverride : BaseInput
         KS.OnTouchCancel(OnKsTouchCancel);
     }
 
-    private void UnregisterWechatTouchEvents()
+    private void UnregisterKuaishouTouchEvents()
     {
         KS.OffTouchStart(OnKsTouchStart);
         KS.OffTouchMove(OnKsTouchMove);
