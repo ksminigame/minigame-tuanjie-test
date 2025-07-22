@@ -3,7 +3,7 @@
 namespace KSWASM
 {
     /// <summary>
-    /// 小游戏宿主SDK对外暴露的API
+    /// 快手SDK对外暴露的API
     /// </summary>
     public partial class KS : KSBase
     {
@@ -43,7 +43,7 @@ namespace KSWASM
         }
 
         /// <summary>
-        /// 通过 Login 接口获得的用户登录态拥有一定的时效性。用户越久未使用小程序，用户登录态越有可能失效。反之如果用户一直在使用小程序，则用户登录态一直保持有效。具体时效逻辑由小游戏宿主维护，对开发者透明。开发者只需要调用 CheckSession 接口检测当前用户登录态是否有效。
+        /// 通过 Login 接口获得的用户登录态拥有一定的时效性。用户越久未使用小程序，用户登录态越有可能失效。反之如果用户一直在使用小程序，则用户登录态一直保持有效。具体时效逻辑由快手维护，对开发者透明。开发者只需要调用 CheckSession 接口检测当前用户登录态是否有效。
         /// 登录态过期后开发者可以再调用 Login 获取新的用户登录态。调用成功说明当前 session_key 未过期，调用失败说明 session_key 已过期。
         /// </summary>
         public static void CheckSession(CheckSessionOption option)
@@ -302,10 +302,12 @@ namespace KSWASM
         /// | 8   | 当天(自然日)赞官方贴子数                      | 无需传入  |  |
         /// | 9   | 当天(自然日)评论官方贴子数                     | 无需传入  |  |
         /// | 10   | 当天(自然日)发表到本圈子话题的贴子数           | 传入话题id，从mp-游戏圈话题管理处获取  |  |
+        /// 
         /// **encryptedData 解密后得到的 GameClubData 的结构**
         /// | 属性 | 类型 | 说明                                   |
         /// | ------- | ------- | -------------------------------------- |
         /// |  dataList   | Array<GameClubDataByType> | 游戏圈相关数据的对象数组           |
+        /// 
         /// **GameClubDataByType 的结构**
         /// | 属性 | 类型 | 说明                                   |
         /// | ------- |------- |  -------------------------------------- |
@@ -318,7 +320,7 @@ namespace KSWASM
         }
 
         /// <summary>
-        /// 获取小游戏宿主群聊场景下的小程序启动信息。群聊场景包括群聊小程序消息卡片、群待办、群工具。可用于获取当前群的 opengid。
+        /// 获取快手群聊场景下的小程序启动信息。群聊场景包括群聊小程序消息卡片、群待办、群工具。可用于获取当前群的 opengid。
         /// </summary>
         public static void GetGroupEnterInfo(GetGroupEnterInfoOption option)
         {
@@ -351,11 +353,10 @@ namespace KSWASM
 
         /// <summary>
         /// 查询隐私授权情况。
-        /// ****
-        /// ## 具体说明：
+        /// 
+        /// **具体说明：**
         /// 1. 一定要调用 GetPrivacySetting 接口吗？
         /// - 不是，GetPrivacySetting 只是一个辅助接口，可以根据实际情况选择使用。
-        /// ```
         /// </summary>
         public static void GetPrivacySetting(GetPrivacySettingOption option)
         {
@@ -413,7 +414,7 @@ namespace KSWASM
         }
 
         /// <summary>
-        /// 异步获取系统信息。需要一定的小游戏宿主客户端版本支持，在不支持的客户端上，会使用同步实现来返回。
+        /// 异步获取系统信息。需要一定的快手客户端版本支持，在不支持的客户端上，会使用同步实现来返回。
         /// </summary>
         public static void GetSystemInfoAsync(GetSystemInfoAsyncOption option)
         {
@@ -422,6 +423,7 @@ namespace KSWASM
 
         /// <summary>
         /// 获取用户信息。
+        /// </summary>
         public static void GetUserInfo(GetUserInfoOption option)
         {
             KSSDKManagerHandler.Instance.GetUserInfo(option);
@@ -436,12 +438,12 @@ namespace KSWASM
         }
 
         /// <summary>
-        /// 获取用户过去三十一天小游戏宿主运动步数。需要先调用 Login 接口。步数信息会在用户主动进入小程序时更新。
+        /// 获取用户过去三十一天快手运动步数。需要先调用 Login 接口。步数信息会在用户主动进入小程序时更新。
         /// stepInfoList 中，每一项结构如下：
         /// | 属性 | 类型 | 说明 |
         /// | --- | ---- | --- |
         /// | timestamp | number | 时间戳，表示数据对应的时间 |
-        /// | step | number | 小游戏宿主运动步数 |
+        /// | step | number | 快手运动步数 |
         /// </summary>
         public static void GetWeRunData(GetWeRunDataOption option)
         {
@@ -466,8 +468,8 @@ namespace KSWASM
 
         /// <summary>
         /// 隐藏当前页面的转发按钮
-        /// ****
-        /// ## 注意事项
+        /// 
+        /// **注意事项**
         /// - "shareAppMessage"表示“发送给朋友”按钮，"shareTimeline"表示“分享到朋友圈”按钮
         /// - 隐藏“发送给朋友”按钮时必须同时隐藏“分享到朋友圈”按钮，隐藏“分享到朋友圈”按钮时则允许不隐藏“发送给朋友”按钮
         /// </summary>
@@ -509,7 +511,7 @@ namespace KSWASM
         }
 
         /// <summary>
-        /// 调用接口获取登录凭证（code）。通过凭证进而换取用户登录态信息，包括用户在当前小程序的唯一标识（openid）、小游戏宿主开放平台账号下的唯一标识（unionid，若当前小程序已绑定到小游戏宿主开放平台账号）及本次登录的会话密钥（session_key）等。用户数据的加解密通讯需要依赖会话密钥完成。
+        /// 调用接口获取登录凭证（code）。通过凭证进而换取用户登录态信息，包括用户在当前小程序的唯一标识（openid）、快手开放平台账号下的唯一标识（unionid，若当前小程序已绑定到快手开放平台账号）及本次登录的会话密钥（session_key）等。用户数据的加解密通讯需要依赖会话密钥完成。
         /// </summary>
         public static void Login(LoginOption option)
         {
@@ -546,7 +548,8 @@ namespace KSWASM
         }
 
         /// <summary>
-        /// 跳转系统小游戏宿主授权管理页
+        /// 跳转系统快手授权管理页
+        /// </summary>
         public static void OpenAppAuthorizeSetting(OpenAppAuthorizeSettingOption option)
         {
             KSSDKManagerHandler.Instance.OpenAppAuthorizeSetting(option);
@@ -572,7 +575,7 @@ namespace KSWASM
         }
 
         /// <summary>
-        /// 查看小游戏宿主卡包中的卡券。只有通过 认证 的小程序或文化互动类目的小游戏才能使用。
+        /// 查看快手卡包中的卡券。只有通过 认证 的小程序或文化互动类目的小游戏才能使用。
         /// </summary>
         public static void OpenCard(OpenCardOption option)
         {
@@ -612,7 +615,7 @@ namespace KSWASM
         }
 
         /// <summary>
-        /// 打开小游戏宿主客服，页面产生点击事件（例如 button 上 bindtap 的回调中）后才可调用。
+        /// 打开快手客服，页面产生点击事件（例如 button 上 bindtap 的回调中）后才可调用。
         /// </summary>
         public static void OpenCustomerServiceChat(OpenCustomerServiceChatOption option)
         {
@@ -620,7 +623,7 @@ namespace KSWASM
         }
 
         /// <summary>
-        /// 进入客服会话。要求在用户发生过至少一次 touch 事件后才能调用。后台接入方式与小程序一致，
+        /// 进入客服会话。要求在用户发生过至少一次 touch 事件后才能调用。后台接入方式与小程序一致。
         /// **注意事项**
         /// - 在客服会话内点击小程序消息卡片进入小程序时，不能通过 OnShow 或 GetEnterOptionsSync 等接口获取启动路径和参数，而是应该通过 OpenCustomerServiceConversation 接口的 success 回调获取启动路径和参数
         /// </summary>
@@ -631,8 +634,8 @@ namespace KSWASM
 
         /// <summary>
         /// 跳转至隐私协议页面。
-        /// ****
-        /// ## 具体说明：
+        /// 
+        /// **具体说明：**
         /// - 1. 一定要调用 OpenPrivacyContract 接口吗？
         /// - 不是。开发者也可以选择在小游戏内自行展示完整的隐私协议。但推荐使用该接口。
         /// </summary>
@@ -643,7 +646,7 @@ namespace KSWASM
 
         /// <summary>
         /// 调起客户端小程序设置界面，返回用户设置的操作结果。**设置界面只会出现小程序已经向用户请求过的权限**。
-        /// ****
+        /// 
         /// - 注意：用户发生点击行为后，才可以跳转打开设置页，管理授权信息。
         /// </summary>
         public static void OpenSetting(OpenSettingOption option)
@@ -769,6 +772,7 @@ namespace KSWASM
         /// - 开发版和体验版小游戏将禁止使用模板消息 fomrId。
         /// - 一次授权调用里，每个tmplId对应的模板标题不能存在相同的，若出现相同的，只保留一个。
         /// **错误码**
+        /// 
         /// | errCode | errMsg                                                 | 说明                                                           |
         /// | ------- | ------------------------------------------------------ | -------------------------------------------------------------- |
         /// | 10001   | TmplIds can't be empty                                 | 参数传空了                                                     |
@@ -793,6 +797,7 @@ namespace KSWASM
         /// - 需要在 touchend 事件的回调中调用。
         /// - 系统订阅消息只需要订阅一次，永久有效。
         /// **错误码**
+        /// 
         /// | errCode | errMsg                                                 | 说明                                                           |
         /// | ------- | ------------------------------------------------------ | -------------------------------------------------------------- |
         /// | 10001   | TmplIds can't be empty                                 | 参数传空了                                                     |
@@ -810,8 +815,8 @@ namespace KSWASM
 
         /// <summary>
         /// 模拟隐私接口调用，并触发隐私弹窗逻辑。
-        /// ****
-        /// ## 具体说明：
+        /// 
+        /// **具体说明：**
         /// 1. 调用 requirePrivacyAuthorize() 时：
         /// - 1. 如果用户之前已经同意过隐私授权，会立即返回success回调，不会触发 onNeedPrivacyAuthorization 事件。
         /// - 2. 如果用户之前没有授权过，并且开发者注册了 onNeedPrivacyAuthorization() 事件监听，就会立即触发 onNeedPrivacyAuthorization 事件，然后开发者在 onNeedPrivacyAuthorization 回调中弹出自定义隐私授权弹窗，用户点了同意后开发者调用 onNeedPrivacyAuthorization 的回调接口 resolve({ event: 'agree' })，会触发 requirePrivacyAuthorize 的 success 回调。用户点击拒绝授权后开发者调用 onNeedPrivacyAuthorization 的回调接口 resolve({ event: 'disagree' }) 的话，会触发 requirePrivacyAuthorize 的 fail 回调。
@@ -901,9 +906,9 @@ namespace KSWASM
 
         /// <summary>
         /// 设置 InnerAudioContext 的播放选项。设置之后对当前小程序全局生效。
-        /// ****
-        /// ## 注意事项
-        /// - 为保证小游戏宿主整体体验，speakerOn 为 true 时，客户端会忽略 mixWithOthers 参数的内容，强制与其它音频互斥
+        /// 
+        /// **注意事项**
+        /// - 为保证快手整体体验，speakerOn 为 true 时，客户端会忽略 mixWithOthers 参数的内容，强制与其它音频互斥
         /// - 不支持在播放音频的过程中切换为扬声器播放，开发者如需切换可以先暂停当前播放的音频并记录下当前暂停的时间点，然后切换后重新从原来暂停的时间点开始播放音频
         /// - 目前 setInnerAudioOption 接口不兼容 createWebAudioContext 接口，也不兼容 createInnerAudioContext 开启 useWebAudioImplement 的情况，将在后续版本中支持
         /// </summary>
@@ -947,7 +952,7 @@ namespace KSWASM
         /// <summary>
         /// 对用户托管数据进行写数据操作。允许同时写多组 KV 数据。
         /// **托管数据的限制**
-        /// 1. 每个openid所标识的小游戏宿主用户在每个游戏上托管的数据不能超过128个key-value对。
+        /// 1. 每个openid所标识的快手用户在每个游戏上托管的数据不能超过128个key-value对。
         /// 2. 上报的key-value列表当中每一项的key+value长度都不能超过1K(1024)字节。
         /// 3. 上报的key-value列表当中每一个key长度都不能超过128字节。
         /// </summary>
@@ -1016,8 +1021,8 @@ namespace KSWASM
 
         /// <summary>
         /// 显示当前页面的转发按钮
-        /// ****
-        /// ## 注意事项
+        /// 
+        /// **注意事项**
         /// - "shareAppMessage"表示“发送给朋友”按钮，"shareTimeline"表示“分享到朋友圈”按钮
         /// - 显示“分享到朋友圈”按钮时必须同时显示“发送给朋友”按钮，显示“发送给朋友”按钮时则允许不显示“分享到朋友圈”按钮
         /// </summary>
@@ -1140,8 +1145,8 @@ namespace KSWASM
 
         /// <summary>
         /// 更新转发属性
-        /// ****
-        /// ## 注意事项
+        /// 
+        /// **注意事项**
         /// - bug：在iOS上，如果 withShareTicket 传了 true ，同时 isUpdatableMessage 传了 false，会导致 withShareTicket 失效。解决办法：当 withShareTicket 传了 true 的时候，isUpdatableMessage 传 true 或者不传都可以，但不要传 false。如果需要关掉动态消息设置，则另外单独调用一次 updateShareMenu({ isUpdatableMessage: false }) 即可。
         /// </summary>
         public static void UpdateShareMenu(UpdateShareMenuOption option)
@@ -1155,14 +1160,6 @@ namespace KSWASM
         public static void UpdateVoIPChatMuteConfig(UpdateVoIPChatMuteConfigOption option)
         {
             KSSDKManagerHandler.Instance.UpdateVoIPChatMuteConfig(option);
-        }
-
-        /// <summary>
-        /// 更新客户端版本。当判断用户小程序所在客户端版本过低时，可使用该接口跳转到更新小游戏宿主页面。
-        /// </summary>
-        public static void UpdateMinihostApp(UpdateKuaishouAppOption option)
-        {
-            KSSDKManagerHandler.Instance.UpdateKuaishouApp(option);
         }
 
         /// <summary>
@@ -1229,8 +1226,11 @@ namespace KSWASM
 
         /// <summary>
         /// 获取小游戏用户的已结束的直播数据
-        /// 错误码：-10000400：参数无效；-10115001：存在未结束的直播
+        /// 错误码：
+        /// -10000400：参数无效；
+        /// -10115001：存在未结束的直播
         /// encryptedData 解密后得到的数据结构：
+        /// ```
         /// {
         ///  watermark: {
         ///      timestamp,
@@ -1246,6 +1246,7 @@ namespace KSWASM
         ///      liveDurationInSeconds      // 直播总时长
         ///  }]
         ///  }
+        /// ```
         /// </summary>
         public static void GetUserGameLiveDetails(GetUserGameLiveDetailsOption option)
         {
@@ -1262,9 +1263,7 @@ namespace KSWASM
         }
 
         /// <summary>
-        /// 打开游戏内容页面，从 2.25.1 基础库开始支持
-        /// | 参数 | 类型 | 说明 |
-        /// | openlink | string | 用于打开指定游戏内容页面的开放链接 |
+        /// 打开游戏内容页面
         /// </summary>
         public static void OpenPage(OpenPageOption option)
         {
@@ -1272,7 +1271,6 @@ namespace KSWASM
         }
 
         /// <summary>
-        /// requestMidasPaymentGameItem(Object object)
         /// 发起米大师支付
         /// </summary>
         public static void RequestMidasPaymentGameItem(RequestMidasPaymentGameItemOption option)
@@ -1287,7 +1285,6 @@ namespace KSWASM
 
         /// <summary>
         /// 打开业务页面
-        /// 从基础库 v3.1.0 开始支持
         /// </summary>
         public static void OpenBusinessView(OpenBusinessViewOption option)
         {
@@ -1303,7 +1300,7 @@ namespace KSWASM
         }
 
         /// <summary>
-        /// 分享游戏对局回放。安卓小游戏宿主8.0.28开始支持，iOS小游戏宿主8.0.30开始支持。
+        /// 分享游戏对局回放。
         /// </summary>
         public static void OperateGameRecorderVideo(OperateGameRecorderVideoOption option)
         {
@@ -1311,7 +1308,6 @@ namespace KSWASM
         }
 
         /// <summary>
-        /// removeStorageSync(string key)
         /// removeStorage 的同步版本
         /// </summary>
         public static void RemoveStorageSync(string key)
@@ -1449,7 +1445,7 @@ namespace KSWASM
         }
 
         /// <summary>
-        /// 监听音频因为受到系统占用而被中断开始事件。以下场景会触发此事件：闹钟、电话、FaceTime 通话、小游戏宿主语音聊天、小游戏宿主视频聊天、有声广告开始播放、实名认证页面弹出等。此事件触发后，小程序内所有音频会暂停。
+        /// 监听音频因为受到系统占用而被中断开始事件。以下场景会触发此事件：闹钟、电话、FaceTime 通话、快手语音聊天、快手视频聊天、有声广告开始播放、实名认证页面弹出等。此事件触发后，小程序内所有音频会暂停。
         /// </summary>
         public static void OnAudioInterruptionBegin(Action<GeneralCallbackResult> res)
         {
@@ -1585,6 +1581,7 @@ namespace KSWASM
         /// 由于平台差异，accuracy 在 iOS/Android 的值不同。
         /// - iOS：accuracy 是一个 number 类型的值，表示相对于磁北极的偏差。0 表示设备指向磁北，90 表示指向东，180 表示指向南，依此类推。
         /// - Android：accuracy 是一个 string 类型的枚举值。
+        /// 
         /// | 值              | 说明                                                                                   |
         /// | --------------- | -------------------------------------------------------------------------------------- |
         /// | high            | 高精度                                                                                 |
@@ -1619,8 +1616,8 @@ namespace KSWASM
 
         /// <summary>
         /// 监听屏幕转向切换事件
-        /// ****
-        /// ## 注意事项
+        /// 
+        /// **注意事项**
         /// - 在基础库 v2.26.0 之前，onDeviceOrientationChange 只监听左横屏和右横屏之间切换的事件，且仅在 game.json 中配置 deviceOrientation 的值为 landscape 时生效。
         /// - 从基础库 v2.26.0 开始，onDeviceOrientationChange 会同时监听通过 setDeviceOrientation 接口切换横竖屏的事件。
         /// </summary>
@@ -1860,7 +1857,6 @@ namespace KSWASM
             KSSDKManagerHandler.Instance.OnShareMessageToFriend(result);
         }
 
-
         /// <summary>
         /// 监听小游戏回到前台的事件
         /// </summary>
@@ -1994,7 +1990,7 @@ namespace KSWASM
         }
 
         /// <summary>
-        /// 监听用户点击菜单「收藏」按钮时触发的事件（安卓7.0.15起支持，iOS 暂不支持）
+        /// 监听用户点击菜单「收藏」按钮时触发的事件
         /// </summary>
         public static void OnAddToFavorites(Action<Action<OnAddToFavoritesListenerResult>> callback)
         {
@@ -2061,7 +2057,6 @@ namespace KSWASM
         /// <summary>
         /// 设置接力参数，该接口需要在游戏域调用
         /// </summary>
-        /// <returns></returns>
         public static bool SetHandoffQuery(string query)
         {
             return KSSDKManagerHandler.Instance.SetHandoffQuery(query);
@@ -2070,39 +2065,34 @@ namespace KSWASM
         /// <summary>
         /// 获取当前账号信息。线上小程序版本号仅支持在正式版小程序中获取，开发版和体验版中无法获取。
         /// </summary>
-        /// <returns></returns>
         public static AccountInfo GetAccountInfoSync()
         {
             return KSSDKManagerHandler.Instance.GetAccountInfoSync();
         }
 
         /// <summary>
-        /// 获取小游戏宿主APP授权设置
+        /// 获取快手APP授权设置
         /// **返回值说明**
         /// `'authorized'` 表示已经获得授权，无需再次请求授权；
         /// `'denied'` 表示请求授权被拒绝，无法再次请求授权；（此情况需要引导用户打开系统设置，在设置页中打开权限）
-        /// `'non determined'` 表示尚未请求授权，会在小游戏宿主下一次调用系统相应权限时请求；（仅 iOS 会出现。此种情况下引导用户打开系统设置，不展示开关）
+        /// `'non determined'` 表示尚未请求授权，会在快手下一次调用系统相应权限时请求；（仅 iOS 会出现。此种情况下引导用户打开系统设置，不展示开关）
         /// </summary>
-        /// <returns></returns>
         public static AppAuthorizeSetting GetAppAuthorizeSetting()
         {
             return KSSDKManagerHandler.Instance.GetAppAuthorizeSetting();
         }
 
         /// <summary>
-        /// 获取小游戏宿主APP基础信息
+        /// 获取快手APP基础信息
         /// </summary>
-        /// <returns></returns>
         public static AppBaseInfo GetAppBaseInfo()
         {
             return KSSDKManagerHandler.Instance.GetAppBaseInfo();
         }
 
         /// <summary>
-        /// [Object getBatteryInfoSync()
         /// getBatteryInfo 的同步版本
         /// </summary>
-        /// <returns></returns>
         public static GetBatteryInfoSyncResult GetBatteryInfoSync()
         {
             return KSSDKManagerHandler.Instance.GetBatteryInfoSync();
@@ -2111,7 +2101,6 @@ namespace KSWASM
         /// <summary>
         /// 获取设备基础信息
         /// </summary>
-        /// <returns></returns>
         public static DeviceInfo GetDeviceInfo()
         {
             return KSSDKManagerHandler.Instance.GetDeviceInfo();
@@ -2128,8 +2117,10 @@ namespace KSWASM
         /// | 1037   | 小程序打开小程序                | 来源小程序 |
         /// | 1038   | 从另一个小程序返回              | 来源小程序 |
         /// | 1043   | 公众号模板消息                  | 来源公众号 |
+        /// 
         /// **不同 apiCategory 场景下的 API 限制**
         /// `X` 表示 API 被限制无法使用；不在表格中的 API 不限制。
+        /// 
         /// |                                       | default | nativeFunctionalized | browseOnly | embedded |
         /// |-|-|-|-|-|
         /// |navigateToMiniProgram                  |         | `X`                  | `X`        |          |
@@ -2138,10 +2129,10 @@ namespace KSWASM
         /// |&lt;button open-type="feedback"&gt;    |         |                      | `X`        |          |
         /// |&lt;button open-type="open-setting"&gt;|         |                      | `X`        |          |
         /// |openEmbeddedMiniProgram                |         | `X`                  | `X`        | `X`      |
+        /// 
         /// **注意**
         /// 部分版本在无`referrerInfo`的时候会返回 `undefined`，建议使用 `options.referrerInfo && options.referrerInfo.appId` 进行判断。
         /// </summary>
-        /// <returns></returns>
         public static EnterOptionsGame GetEnterOptionsSync()
         {
             return KSSDKManagerHandler.Instance.GetEnterOptionsSync();
@@ -2154,20 +2145,16 @@ namespace KSWASM
         /// 调用 getExptInfoSync() 会返回 `{color:'#fff',size:20}` 类似的结果
         /// 而 getExptInfoSync(['color']) 则只会返回 `{color:'#fff'}`
         /// </summary>
-        /// <returns></returns>
         public static T GetExptInfoSync<T>(string[] keys)
         {
             return KSSDKManagerHandler.Instance.GetExptInfoSync<T>(keys);
         }
 
         /// <summary>
-        /// [Object getExtConfigSync()
         /// getExtConfig 的同步版本。
         /// **Tips**
         /// 1. 本接口暂时无法通过 canIUse(#) 判断是否兼容，开发者需要自行判断 getExtConfigSync 是否存在来兼容
-        /// ****
         /// </summary>
-        /// <returns></returns>
         public static T GetExtConfigSync<T>()
         {
             return KSSDKManagerHandler.Instance.GetExtConfigSync<T>();
@@ -2176,7 +2163,6 @@ namespace KSWASM
         /// <summary>
         /// ks.getStorage 的同步版本
         /// </summary>
-        /// <returns></returns>
         public static string GetStorageSync(string key)
         {
             return KSSDKManagerHandler.Instance.GetStorageSync(key);
@@ -2185,7 +2171,6 @@ namespace KSWASM
         /// <summary>
         /// 从本地缓存中异步获取指定 key 的内容
         /// </summary>
-        /// <returns></returns>
         public static void GetStorage(GetStorageOption option)
         {
             KSSDKManagerHandler.Instance.GetStorage(option);
@@ -2194,6 +2179,7 @@ namespace KSWASM
         /// <summary>
         /// 获取小游戏冷启动时的参数。热启动参数通过 onShow 接口获取。
         /// **返回有效 referrerInfo 的场景**
+        /// 
         /// | 场景值 | 场景                            | appId含义  |
         /// | ------ | ------------------------------- | ---------- |
         /// | 1020   | 公众号 profile 页相关小程序列表 | 来源公众号 |
@@ -2202,11 +2188,11 @@ namespace KSWASM
         /// | 1037   | 小程序打开小程序                | 来源小程序 |
         /// | 1038   | 从另一个小程序返回              | 来源小程序 |
         /// | 1043   | 公众号模板消息                  | 来源公众号 |
+        /// 
         /// **注意**
         /// 部分版本在无`referrerInfo`的时候会返回 `undefined`，
         /// 建议使用 `options.referrerInfo && options.referrerInfo.appId` 进行判断。
         /// </summary>
-        /// <returns></returns>
         public static LaunchOptionsGame GetLaunchOptionsSync()
         {
             return KSSDKManagerHandler.Instance.GetLaunchOptionsSync();
@@ -2215,17 +2201,14 @@ namespace KSWASM
         /// <summary>
         /// 获取菜单按钮（右上角胶囊按钮）的布局位置信息。坐标信息以屏幕左上角为原点。
         /// </summary>
-        /// <returns></returns>
         public static ClientRect GetMenuButtonBoundingClientRect()
         {
             return KSSDKManagerHandler.Instance.GetMenuButtonBoundingClientRect();
         }
 
         /// <summary>
-        /// [Object getStorageInfoSync()
         /// getStorageInfo 的同步版本
         /// </summary>
-        /// <returns></returns>
         public static GetStorageInfoSyncOption GetStorageInfoSync()
         {
             return KSSDKManagerHandler.Instance.GetStorageInfoSync();
@@ -2234,7 +2217,6 @@ namespace KSWASM
         /// <summary>
         /// getSystemInfo 的同步版本
         /// </summary>
-        /// <returns></returns>
         public static SystemInfo GetSystemInfoSync()
         {
             return KSSDKManagerHandler.Instance.GetSystemInfoSync();
@@ -2243,7 +2225,6 @@ namespace KSWASM
         /// <summary>
         /// 获取设备设置
         /// </summary>
-        /// <returns></returns>
         public static SystemSetting GetSystemSetting()
         {
             return KSSDKManagerHandler.Instance.GetSystemSetting();
@@ -2252,7 +2233,6 @@ namespace KSWASM
         /// <summary>
         /// 获取窗口信息
         /// </summary>
-        /// <returns></returns>
         public static WindowInfo GetWindowInfo()
         {
             return KSSDKManagerHandler.Instance.GetWindowInfo();
@@ -2261,7 +2241,6 @@ namespace KSWASM
         /// <summary>
         /// 创建一个 ImageData 图片数据对象
         /// </summary>
-        /// <returns></returns>
         public static ImageData CreateImageData()
         {
             return KSSDKManagerHandler.Instance.CreateImageData();
@@ -2270,7 +2249,6 @@ namespace KSWASM
         /// <summary>
         /// 创建一个 Path2D 路径对象
         /// </summary>
-        /// <returns></returns>
         public static Path2D CreatePath2D()
         {
             return KSSDKManagerHandler.Instance.CreatePath2D();
@@ -2279,7 +2257,6 @@ namespace KSWASM
         /// <summary>
         /// 检查鼠标指针是否被锁定。此接口仅在 Windows、Mac 端支持。
         /// </summary>
-        /// <returns></returns>
         public static bool IsPointerLocked()
         {
             return KSSDKManagerHandler.Instance.IsPointerLocked();
@@ -2288,7 +2265,6 @@ namespace KSWASM
         /// <summary>
         /// 判断支持版本
         /// </summary>
-        /// <returns></returns>
         public static bool IsVKSupport(string version)
         {
             return KSSDKManagerHandler.Instance.IsVKSupport(version);
@@ -2300,7 +2276,6 @@ namespace KSWASM
         /// - 传入图片太大可能会导致设置无效，推荐图标大小 32x32
         /// - 基础库 v2.16.0 后，支持更多图片格式以及关键字种类（参考 CSS 标准）
         /// </summary>
-        /// <returns></returns>
         public static bool SetCursor(string path, double x, double y)
         {
             return KSSDKManagerHandler.Instance.SetCursor(path, x, y);
@@ -2309,7 +2284,6 @@ namespace KSWASM
         /// <summary>
         /// 设置 shareMessageToFriend 接口 query 字段的值
         /// </summary>
-        /// <returns></returns>
         public static bool SetMessageToFriendQuery(SetMessageToFriendQueryOption option)
         {
             return KSSDKManagerHandler.Instance.SetMessageToFriendQuery(option);
@@ -2318,7 +2292,6 @@ namespace KSWASM
         /// <summary>
         /// 获取一行文本的行高
         /// </summary>
-        /// <returns></returns>
         public static double GetTextLineHeight(GetTextLineHeightOption option)
         {
             return KSSDKManagerHandler.Instance.GetTextLineHeight(option);
@@ -2327,7 +2300,6 @@ namespace KSWASM
         /// <summary>
         /// 加载自定义字体文件
         /// </summary>
-        /// <returns></returns>
         public static string LoadFont(string path)
         {
             return KSSDKManagerHandler.Instance.LoadFont(path);
@@ -2336,7 +2308,6 @@ namespace KSWASM
         /// <summary>
         /// 查询当前直播状态
         /// </summary>
-        /// <returns></returns>
         public static GameLiveState GetGameLiveState()
         {
             return KSSDKManagerHandler.Instance.GetGameLiveState();
@@ -2346,7 +2317,6 @@ namespace KSWASM
         /// 下载文件资源到本地。客户端直接发起一个 HTTPS GET 请求，返回文件的本地临时路径 (本地路径)，单次下载允许的最大文件为 200MB。
         /// 注意：请在服务端响应的 header 中指定合理的 `Content-Type` 字段，以保证客户端正确处理文件类型。
         /// </summary>
-        /// <returns></returns>
         public static KSDownloadTask DownloadFile(DownloadFileOption option)
         {
             return KSSDKManagerHandler.Instance.DownloadFile(option);
@@ -2355,7 +2325,6 @@ namespace KSWASM
         /// <summary>
         /// 创建打开意见反馈页面的按钮
         /// </summary>
-        /// <returns></returns>
         public static KSFeedbackButton CreateFeedbackButton(CreateOpenSettingButtonOption option)
         {
             return KSSDKManagerHandler.Instance.CreateFeedbackButton(option);
@@ -2364,7 +2333,6 @@ namespace KSWASM
         /// <summary>
         /// 获取日志管理器对象。
         /// </summary>
-        /// <returns></returns>
         public static KSLogManager GetLogManager(GetLogManagerOption option)
         {
             return KSSDKManagerHandler.Instance.GetLogManager(option);
@@ -2373,7 +2341,6 @@ namespace KSWASM
         /// <summary>
         /// 获取实时日志管理器对象。
         /// </summary>
-        /// <returns></returns>
         public static KSRealtimeLogManager GetRealtimeLogManager()
         {
             return KSSDKManagerHandler.Instance.GetRealtimeLogManager();
@@ -2382,7 +2349,6 @@ namespace KSWASM
         /// <summary>
         /// 获取**全局唯一**的版本更新管理器，用于管理小程序更新。关于小程序的更新机制。
         /// </summary>
-        /// <returns></returns>
         public static KSUpdateManager GetUpdateManager()
         {
             return KSSDKManagerHandler.Instance.GetUpdateManager();
@@ -2391,7 +2357,6 @@ namespace KSWASM
         /// <summary>
         /// 创建视频解码器，可逐帧获取解码后的数据
         /// </summary>
-        /// <returns></returns>
         public static KSVideoDecoder CreateVideoDecoder()
         {
             return KSSDKManagerHandler.Instance.CreateVideoDecoder();
@@ -2400,7 +2365,6 @@ namespace KSWASM
         /// <summary>
         /// 添加小游戏快捷方式到手机桌面上
         /// </summary>
-        /// <returns></returns>
         public static void AddShortcut(AddShortcutOption option)
         {
             KSSDKManagerHandler.Instance.AddShortcut(option);
@@ -2409,7 +2373,6 @@ namespace KSWASM
         /// <summary>
         /// 检查小游戏快捷方式是否已添加到手机桌面上，仅 Android 支持
         /// </summary>
-        /// <returns></returns>
         public static void CheckShortcut(CheckShortcutOption option)
         {
             KSSDKManagerHandler.Instance.CheckShortcut(option);
@@ -2418,7 +2381,6 @@ namespace KSWASM
         /// <summary>
         /// 判断小游戏是否从手机桌面快捷方式启动
         /// </summary>
-        /// <returns></returns>
         public static bool IsLaunchFromShortcut()
         {
             return KSSDKManagerHandler.Instance.IsLaunchFromShortcut();
@@ -2427,7 +2389,6 @@ namespace KSWASM
         /// <summary>
         /// 判断侧边栏是否可用
         /// </summary>
-        /// <returns></returns>
         public static void CheckSliderBarIsAvailable(CheckSliderBarIsAvailableOption option)
         {
             KSSDKManagerHandler.Instance.CheckSliderBarIsAvailable(option);
@@ -2436,7 +2397,6 @@ namespace KSWASM
         /// <summary>
         /// 查看关注官方帐号状态
         /// </summary>
-        /// <returns></returns>
         public static void CheckFollowState(CheckFollowStateOption option)
         {
             KSSDKManagerHandler.Instance.CheckFollowState(option);
@@ -2445,7 +2405,6 @@ namespace KSWASM
         /// <summary>
         /// 打开官方帐号profile
         /// </summary>
-        /// <returns></returns>
         public static void OpenUserProfile(OpenUserProfileOption option)
         {
             KSSDKManagerHandler.Instance.OpenUserProfile(option);
@@ -2454,7 +2413,6 @@ namespace KSWASM
         /// <summary>
         /// 支付接口
         /// </summary>
-        /// <returns></returns>
         public static void RequestGamePayment(RequestGamePaymentOption option)
         {
             KSSDKManagerHandler.Instance.RequestGamePayment(option);
@@ -2463,7 +2421,6 @@ namespace KSWASM
         /// <summary>
         /// 跳转到某个小游戏入口场景
         /// </summary>
-        /// <returns></returns>
         public static void NavigateToScene(NavigateToSceneOption option)
         {
             KSSDKManagerHandler.Instance.NavigateToScene(option);
@@ -2472,7 +2429,6 @@ namespace KSWASM
         /// <summary>
         /// 从相册上传视频/图片信息
         /// </summary>
-        /// <returns></returns>
         public static void ChooseVideoAndPublish(ChooseVideoAndPublishOption option)
         {
             KSSDKManagerHandler.Instance.ChooseVideoAndPublish(option);
@@ -2481,7 +2437,6 @@ namespace KSWASM
         /// <summary>
         /// 图片分享至游戏圈
         /// </summary>
-        /// <returns></returns>
         public static void ShareImageToGameClub(ShareImageToGameClubOption option)
         {
             KSSDKManagerHandler.Instance.ShareImageToGameClub(option);
@@ -2490,7 +2445,6 @@ namespace KSWASM
         /// <summary>
         /// 跳转到游戏圈
         /// </summary>
-        /// <returns></returns>
         public static void JumpToGameClub(JumpToGameClubOption option)
         {
             KSSDKManagerHandler.Instance.JumpToGameClub(option);
@@ -2499,7 +2453,6 @@ namespace KSWASM
         /// <summary>
         /// 支持用户在游戏内将小游戏设为常用
         /// </summary>
-        /// <returns></returns>
         public static void AddCommonUse(AddCommonUseOption option)
         {
             KSSDKManagerHandler.Instance.AddCommonUse(option);
@@ -2508,7 +2461,6 @@ namespace KSWASM
         /// <summary>
         /// 检查用户是否已经将小游戏设为常用
         /// </summary>
-        /// <returns></returns>
         public static void CheckCommonUse(CheckCommonUseOption option)
         {
             KSSDKManagerHandler.Instance.CheckCommonUse(option);
@@ -2518,7 +2470,7 @@ namespace KSWASM
         {
             KSSDKManagerHandler.Instance.OpenUrl(option);
         }
-        
+
         public static void NotifyMiniProgramPlayableStatus(NotifyMiniProgramPlayableStatusOption option)
         {
             KSSDKManagerHandler.Instance.NotifyMiniProgramPlayableStatus(option);

@@ -38,7 +38,7 @@
   "projectname": "$PROJECT_NAME",
   "unityConvertPluginVersion": "$UNTY_CONVERT_PLUGIN_VERSION",
   "unityEditorVersion": "$UNITY_VERSION",
-  "simulatorType": "wechat",
+  "simulatorType": "kuaishou",
   "simulatorPluginLibVersion": {},
   "packOptions": {
     "ignore": [

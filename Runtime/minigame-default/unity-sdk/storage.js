@@ -25,12 +25,12 @@ const storage = {
             return defaultValue;
         }
     },
-    setData(key, value) {
-        this._cacheData[key] = value;
+    setData(key, data) {
+        this._cacheData[key] = data;
         this._handleList.push({
             type: 'setData',
             key,
-            value,
+            data,
         });
         this._doRun();
     },
@@ -66,7 +66,7 @@ const storage = {
         if (task.type === 'setData') {
             ks.setStorage({
                 key: task.key || 'defaultKey',
-                data: task.value,
+                data: task.data,
                 fail({ errMsg }) {
                     console.error(errMsg);
                 },
@@ -128,20 +128,20 @@ export default {
     KSStorageGetIntSync(key, defaultValue) {
         return +(storage.getData(key, defaultValue) || '');
     },
-    KSStorageSetIntSync(key, value) {
-        storage.setData(key, value);
+    KSStorageSetIntSync(key, data) {
+        storage.setData(key, data);
     },
     KSStorageGetFloatSync(key, defaultValue) {
         return +(storage.getData(key, defaultValue) || '');
     },
-    KSStorageSetFloatSync(key, value) {
-        storage.setData(key, value);
+    KSStorageSetFloatSync(key, data) {
+        storage.setData(key, data);
     },
     KSStorageGetStringSync(key, defaultValue) {
         return storage.getData(key, defaultValue) || '';
     },
-    KSStorageSetStringSync(key, value) {
-        storage.setData(key, value);
+    KSStorageSetStringSync(key, data) {
+        storage.setData(key, data);
     },
     KSStorageDeleteAllSync() {
         storage.deleteAll();

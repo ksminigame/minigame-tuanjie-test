@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.IO;
 using System.Runtime.InteropServices;
 using UnityEngine;
@@ -104,7 +105,7 @@ namespace KSWASM.editor
 #endif
             RegisterController();
         }
-        
+
         private static bool UseIL2CPP()
         {
 #if TUANJIE_2022_3_OR_NEWER
@@ -203,7 +204,7 @@ namespace KSWASM.editor
             GraphicsDeviceType[] targets = new GraphicsDeviceType[] { };
             return null;
         }
-        
+
         private static bool ExceptionSupportIsNone()
         {
 #if TUANJIE_1_5_OR_NEWER
@@ -333,7 +334,7 @@ namespace KSWASM.editor
             UnityEngine.Debug.Log("[Builder] Starting to build WebGL project ... ");
             UnityEngine.Debug.Log("PlayerSettings.WebGL.emscriptenArgs : " + PlayerSettings.WebGL.emscriptenArgs);
 #endif
-            
+
 #if TUANJIE_2022_3_OR_NEWER
             if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.WeixinMiniGame)
             {
@@ -352,7 +353,7 @@ namespace KSWASM.editor
             {
 #if TUANJIE_1_5_OR_NEWER
                 UnityEngine.Debug.LogFormat("[Builder] BuildPlayer failed. emscriptenArgs:{0}", PlayerSettings.MiniGame.emscriptenArgs);
-#else 
+#else
                 UnityEngine.Debug.LogFormat("[Builder] BuildPlayer failed. emscriptenArgs:{0}", PlayerSettings.WeixinMiniGame.emscriptenArgs);
 #endif
                 return -1;
@@ -416,7 +417,7 @@ namespace KSWASM.editor
 #endif
                 string babelBin = Path.GetFullPath(Path.Combine(GetKsSDKRootPath(), "Editor", ".Babel", "node_modules", ".bin", "babel"));
                 string babelCommand = $"\"{babelBin}\" --config-file ./.babelrc \"{targetPath}\" -d \"{targetPath}\"";
-                
+
                 if (!RunCommand(babelCommand))
                 {
                     Debug.LogError("Convert Failure!");
@@ -472,7 +473,7 @@ namespace KSWASM.editor
             return false;
         }
 #endif
-        
+
         private static string GetPlaybackEngineDirectory()
         {
 #if PLATFORM_WEIXINMINIGAME
@@ -481,11 +482,126 @@ namespace KSWASM.editor
             return BuildPipeline.GetPlaybackEngineDirectory(BuildTarget.WebGL, BuildOptions.None);
 #endif
         }
+
+        private static string GetEditorDirectory()
+        {
+            string editorExePath = EditorApplication.applicationPath;
+
+            return Path.GetDirectoryName(editorExePath);
+        }
+
+        public static bool TryGetNodeJsPath(out string nodePath)
+        {
+            string[] candidatePaths = new string[]
+            {
+                Path.Combine(GetPlaybackEngineDirectory(), "BuildTools", "Emscripten", "node"),
+                Path.Combine(GetEditorDirectory(), "Data", "Tools", "nodejs")
+            };
+
+            foreach (var path in candidatePaths)
+            {
+                if (Directory.Exists(path))
+                {
+                    nodePath = path;
+                    return true;
+                }
+            }
+
+            if(TryReadDefaultNvmNode(out nodePath))
+            {
+                return true;
+            }
+
+            if (IsNodeInstalled(out nodePath))
+            {
+                return true;
+            }
+
+            Debug.LogError("当前编辑器版本不包含 Node.js, 请用户自行安装 Node.js 并配置环境变量。");
+            nodePath = null;
+            return false;
+        }
+
+        private static bool TryReadDefaultNvmNode(out string nodePath)
+        {
+            nodePath = null;
+
+            string home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            string nvmBase = Path.Combine(home, ".nvm/versions/node");
+
+            if (!Directory.Exists(nvmBase))
+                return false;
+
+            var versions = Directory.GetDirectories(nvmBase);
+            if (versions.Length == 0)
+                return false;
+
+            string latestVersion = versions.OrderByDescending(v => v).First();
+            string candidatePath = Path.Combine(latestVersion, "bin");
+
+            if (Directory.Exists(candidatePath))
+            {
+                nodePath = candidatePath;
+                return true;
+            }
+
+            return false;
+        }
+
+        private static bool IsNodeInstalled(out string nodePath)
+        {
+            nodePath = null;
+
+            string command;
+#if UNITY_EDITOR_WIN
+            command = "where";
+#else
+            command = "which";
+#endif
+
+            try
+            {
+                var psi = new ProcessStartInfo
+                {
+                    FileName = command,
+                    Arguments = "node",
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
+
+                using (var process = Process.Start(psi))
+                {
+                    if (process == null) return false;
+
+                    string output = process.StandardOutput.ReadLine();
+                    process.WaitForExit();
+
+                    if (!string.IsNullOrEmpty(output) && File.Exists(output.Trim()))
+                    {
+                        nodePath = output.Trim();
+                        return true;
+                    }
+                }
+            }
+            catch
+            {
+                return false;
+            }
+
+            return false;
+        }
+
         private static bool RunCommand(string command)
         {
             try
             {
-                string npxPath = Path.Combine(GetPlaybackEngineDirectory(), "BuildTools", "Emscripten", "node");
+                if (!TryGetNodeJsPath(out string npxPath))
+                {
+                    return false;
+                }
+
                 string pathSeparator = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? ";" : ":";
                 string pathVariableName = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "Path" : "PATH";
 
@@ -510,12 +626,12 @@ namespace KSWASM.editor
                 process.StartInfo.RedirectStandardError = true;
                 process.StartInfo.RedirectStandardOutput = true;
                 process.StartInfo.EnvironmentVariables[pathVariableName] = $"{Environment.GetEnvironmentVariable(pathVariableName)}{pathSeparator}{npxPath}";
-                
+
                 process.Start();
                 process.WaitForExit();
                 string output = process.StandardOutput.ReadToEnd();
                 string strErrOuput = process.StandardError.ReadToEnd();
-                if(string.IsNullOrEmpty(strErrOuput) 
+                if (string.IsNullOrEmpty(strErrOuput)
                    || strErrOuput.IndexOf("[BABEL] Note", StringComparison.OrdinalIgnoreCase) >= 0
                    || strErrOuput.IndexOf("npm notice", StringComparison.OrdinalIgnoreCase) >= 0
                    )
@@ -523,17 +639,17 @@ namespace KSWASM.editor
                     Debug.Log(strErrOuput);
                     return true;
                 }
-                
+
                 if (strErrOuput == "/bin/bash: npx: command not found\n")
                 {
                     Debug.LogError(strErrOuput + " Please install Node.js: https://nodejs.org/en/");
                 }
-                else if(strErrOuput.IndexOf("Permission denied", StringComparison.OrdinalIgnoreCase) >= 0)
+                else if (strErrOuput.IndexOf("Permission denied", StringComparison.OrdinalIgnoreCase) >= 0)
                 {
                     string babelPath = Path.GetFullPath(Path.Combine(GetKsSDKRootPath(), "Editor", ".Babel", "node_modules", ".bin", "babel"));
                     Debug.LogError(strErrOuput + $" Please execute 'chmod a+x \"{babelPath}\"'");
                 }
-                else if(!string.IsNullOrEmpty(strErrOuput))
+                else if (!string.IsNullOrEmpty(strErrOuput))
                 {
                     Debug.LogError(strErrOuput);
                 }
@@ -547,6 +663,7 @@ namespace KSWASM.editor
 
             return false;
         }
+
         private static string GetInstantGameAutoStreamingCDN()
         {
 #if UNITY_INSTANTGAME
@@ -560,15 +677,15 @@ namespace KSWASM.editor
         {
             KSExtEnvDef.RegisterAction("UnityUtil.UseIL2CPP", (args) => UseIL2CPP());
             KSExtEnvDef.RegisterAction("UnityUtil.GetKsSDKRootPath", (args) => GetKsSDKRootPath());
-            KSExtEnvDef.RegisterAction("UnityUtil.IsAssets", (args) =>  IsAssets());
+            KSExtEnvDef.RegisterAction("UnityUtil.IsAssets", (args) => IsAssets());
             KSExtEnvDef.RegisterAction("UnityUtil.InitExportPlayerSetting", (args) => InitExportPlayerSetting());
             KSExtEnvDef.RegisterAction("UnityUtil.CheckBuildTarget", (args) => CheckBuildTarget());
-            KSExtEnvDef.RegisterAction("UnityUtil.UpdateGraphicAPI", (args) =>  UpdateGraphicAPI((KSEditorScriptObject)args));
+            KSExtEnvDef.RegisterAction("UnityUtil.UpdateGraphicAPI", (args) => UpdateGraphicAPI((KSEditorScriptObject)args));
             KSExtEnvDef.RegisterAction("UnityUtil.ExceptionSupportIsNone", (args) => ExceptionSupportIsNone());
-            KSExtEnvDef.RegisterAction("UnityUtil.PerformBuild", (args) =>  PerformBuild((KSEditorScriptObject)args));
-            KSExtEnvDef.RegisterAction("UnityUtil.UploadInstantGameAssets", (args) =>  UploadInstantGameAssets((string)args));
-            KSExtEnvDef.RegisterAction("UnityUtil.RunBabel", (args) =>  RunBabel((string)args));
-            KSExtEnvDef.RegisterAction("UnityUtil.GetInstantGameAutoStreamingCDN", (args) =>  GetInstantGameAutoStreamingCDN());
+            KSExtEnvDef.RegisterAction("UnityUtil.PerformBuild", (args) => PerformBuild((KSEditorScriptObject)args));
+            KSExtEnvDef.RegisterAction("UnityUtil.UploadInstantGameAssets", (args) => UploadInstantGameAssets((string)args));
+            KSExtEnvDef.RegisterAction("UnityUtil.RunBabel", (args) => RunBabel((string)args));
+            KSExtEnvDef.RegisterAction("UnityUtil.GetInstantGameAutoStreamingCDN", (args) => GetInstantGameAutoStreamingCDN());
         }
     }
 }

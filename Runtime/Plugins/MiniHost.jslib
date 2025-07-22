@@ -366,9 +366,6 @@ KS_UpdateShareMenu:function(conf, callbackId) {
 KS_UpdateVoIPChatMuteConfig:function(conf, callbackId) {
     window.KSWASMSDK.KS_UpdateVoIPChatMuteConfig(_KSPointer_stringify_adaptor(conf), _KSPointer_stringify_adaptor(callbackId));
 },
-KS_UpdateWeChatApp:function(conf, callbackId) {
-    window.KSWASMSDK.KS_UpdateWeChatApp(_KSPointer_stringify_adaptor(conf), _KSPointer_stringify_adaptor(callbackId));
-},
 KS_VibrateLong:function(conf, callbackId) {
     window.KSWASMSDK.KS_VibrateLong(_KSPointer_stringify_adaptor(conf), _KSPointer_stringify_adaptor(callbackId));
 },

@@ -1086,7 +1086,6 @@ export default {
         ks.getSetting({
             ...config,
             success(res) {
-                formatResponse('GetSettingSuccessCallbackResult', res);
                 moduleHelper.send('GetSettingCallback', JSON.stringify({
                     callbackId, type: 'success', res: JSON.stringify(res),
                 }));
@@ -3032,31 +3031,6 @@ export default {
         //     complete(res) {
         //         formatResponse('GeneralCallbackResult', res);
         //         moduleHelper.send('UpdateVoIPChatMuteConfigCallback', JSON.stringify({
-        //             callbackId, type: 'complete', res: JSON.stringify(res),
-        //         }));
-        //     },
-        // });
-    },
-    KS_UpdateWeChatApp(conf, callbackId) {
-        console.log("KS_UpdateWeChatApp is not supported");
-        // const config = formatJsonStr(conf);
-        // ks.updateWeChatApp({
-        //     ...config,
-        //     success(res) {
-        //         formatResponse('GeneralCallbackResult', res);
-        //         moduleHelper.send('UpdateWeChatAppCallback', JSON.stringify({
-        //             callbackId, type: 'success', res: JSON.stringify(res),
-        //         }));
-        //     },
-        //     fail(res) {
-        //         formatResponse('GeneralCallbackResult', res);
-        //         moduleHelper.send('UpdateWeChatAppCallback', JSON.stringify({
-        //             callbackId, type: 'fail', res: JSON.stringify(res),
-        //         }));
-        //     },
-        //     complete(res) {
-        //         formatResponse('GeneralCallbackResult', res);
-        //         moduleHelper.send('UpdateWeChatAppCallback', JSON.stringify({
         //             callbackId, type: 'complete', res: JSON.stringify(res),
         //         }));
         //     },

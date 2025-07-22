@@ -1,4 +1,4 @@
-console.info("UnityPluginVersion: 2282a36cb9674c4cca12276a873eeb94a9a703ca");
+console.info("UnityPluginVersion: e82c8ebcc2de09344efee07d6cc81f7b38f50aaf");
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
@@ -1797,7 +1797,7 @@ var GameGlobalVars_1 = __importDefault(__webpack_require__(/*! ./lib/GameGlobalV
 GameGlobalVars_1.default.Initialize();
 LogReport_1.default.init({
     debug: false,
-    pluginAppId: "wxe5a48f1ed5f544b7",
+    pluginAppId: "kwai_game_test_appid",
     pluginVersion: Constants_1.PluginVersion,
     xlogName: "unityPlugin",
 });
@@ -4025,8 +4025,8 @@ var defaultLanguageMap_CN = {
     webglContext_upgradeTip: '，请升级',
     webglContext_sysTag: '系统',
     webglContext_tap: 'TapTap',
-    startCheckIs32Wechat_content: '当前为32位版本\n请升级最新版本',
-    startCheckIs32Wechat_confirm: '确认升级',
+    startCheckIs32Kuaishou_content: '当前为32位版本\n请升级最新版本',
+    startCheckIs32Kuaishou_confirm: '确认升级',
     handleWASMDownloadError_title: '下载wasm代码包失败',
     handleAssetsDownloadError_title: '资源下载失败',
     showResultInfo_title: '检测报告',
@@ -9633,7 +9633,7 @@ var InitializeUnityPlugin = /** @class */ (function (_super) {
         if (!GameGlobalVars_1.default.isRelease) {
             setTimeout(function () {
                 if (!_this.unityManager.gameStarted) {
-                    PluginLogger_1.default.pluginError("[开发阶段提示 不影响线上版本]请使用自定义上报能力 TJ.ReportGameStart, 便于分析数据做启动优化, 文档: \n<url id=\"cubiobr1cvfatrra0t6g\" type=\"url\" status=\"failed\" title=\"\" wc=\"0\">https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/blob/main/Design/ReportStartupStat.md&#34;,</url>");
+                    PluginLogger_1.default.pluginError("[开发阶段提示 不影响线上版本]请使用自定义上报能力 KS.ReportGameStart, 便于分析数据做启动优化。</url>");
                 }
             }, 60000);
         }
@@ -9749,7 +9749,7 @@ var InitializeUnityPlugin = /** @class */ (function (_super) {
                 },
                 /** add legacy module props to avoid potential issues */
                 arguments: [],
-                thisProgram: undefined,
+                thisProgram: "./this.program",
                 quit: undefined,
                 read: undefined,
                 readAsync: undefined,
@@ -14898,7 +14898,7 @@ var PluginMonitor = /** @class */ (function (_super) {
     }
     PluginMonitor.prototype.init = function (unityManager) {
         if (this.enableMonitor) {
-            PluginLogger_1.default.pluginWarn("[仅开发版/体验版生效]已开启最佳实践检测, 请前往github查阅说明文档:\nhttps://github.com/wechat-miniprogram/minigame-unity-webgl-transform/blob/main/Design/PerformanceMonitor.md");
+            PluginLogger_1.default.pluginWarn("[仅开发版/体验版生效]已开启最佳实践检测。");
             this.unityManager = unityManager;
             this.commonMonitor = new CommonMonitor_1.default(unityManager, this);
             this.requestMonitor = new RequestMonitor_1.default(unityManager, this);
@@ -16109,7 +16109,7 @@ var ReportInitializer = /** @class */ (function () {
         if (isGameTransferSupported) {
             ReportInitializer.gameReporter = new GameTransferReport_1.default({
                 logid: 21492,
-                protocolParams: ["PluginVersion", "IsDownloadCode", "ReportType", "CostTimeMs", "NetworkType", "RunTimeMs", "PreloadedSize", "Scene", "LoadingPageType", "ExternInfo", "CodeType", "IsVisible", "BenchmarkLevel", "RuntimeType", "UnityVersion", "ConvertPluginVersion", "LibVersion", "WechatClientVersion", "DataPackageLoadType", "AdSpaceType", "AdType", "MaterialType", "ABTest", "InstanceId"],
+                protocolParams: ["PluginVersion", "IsDownloadCode", "ReportType", "CostTimeMs", "NetworkType", "RunTimeMs", "PreloadedSize", "Scene", "LoadingPageType", "ExternInfo", "CodeType", "IsVisible", "BenchmarkLevel", "RuntimeType", "UnityVersion", "ConvertPluginVersion", "LibVersion", "KuaishouClientVersion", "DataPackageLoadType", "AdSpaceType", "AdType", "MaterialType", "ABTest", "InstanceId"],
                 schemas: {
                     PluginVersion: Validation_1.ValidationConstants.STRING,
                     IsDownloadCode: Validation_1.ValidationConstants.UINT,
@@ -16128,7 +16128,7 @@ var ReportInitializer = /** @class */ (function () {
                     UnityVersion: Validation_1.ValidationConstants.STRING,
                     ConvertPluginVersion: Validation_1.ValidationConstants.STRING,
                     LibVersion: Validation_1.ValidationConstants.STRING,
-                    WechatClientVersion: Validation_1.ValidationConstants.STRING,
+                    KuaishouClientVersion: Validation_1.ValidationConstants.STRING,
                     DataPackageLoadType: Validation_1.ValidationConstants.UINT,
                     AdSpaceType: Validation_1.ValidationConstants.UINT,
                     AdType: Validation_1.ValidationConstants.UINT,
@@ -16142,7 +16142,7 @@ var ReportInitializer = /** @class */ (function () {
             });
             ReportInitializer.remoteReporter = new GameTransferReport_1.default({
                 logid: 21493,
-                protocolParams: ["PluginVersion", "NetworkType", "IsDownloadCode", "ReportType", "ErrorMsg", "RunTimeMs", "Scene", "LoadingPageType", "ExternInfo", "CodeType", "ErrorType", "IsVisible", "BenchmarkLevel", "RuntimeType", "UnityVersion", "ConvertPluginVersion", "LibVersion", "WechatClientVersion", "DataPackageLoadType", "AdSpaceType", "AdType", "MaterialType", "ABTest", "InstanceId"],
+                protocolParams: ["PluginVersion", "NetworkType", "IsDownloadCode", "ReportType", "ErrorMsg", "RunTimeMs", "Scene", "LoadingPageType", "ExternInfo", "CodeType", "ErrorType", "IsVisible", "BenchmarkLevel", "RuntimeType", "UnityVersion", "ConvertPluginVersion", "LibVersion", "KuaishouClientVersion", "DataPackageLoadType", "AdSpaceType", "AdType", "MaterialType", "ABTest", "InstanceId"],
                 schemas: {
                     PluginVersion: Validation_1.ValidationConstants.STRING,
                     NetworkType: Validation_1.ValidationConstants.STRING,
@@ -16161,7 +16161,7 @@ var ReportInitializer = /** @class */ (function () {
                     UnityVersion: Validation_1.ValidationConstants.STRING,
                     ConvertPluginVersion: Validation_1.ValidationConstants.STRING,
                     LibVersion: Validation_1.ValidationConstants.STRING,
-                    WechatClientVersion: Validation_1.ValidationConstants.STRING,
+                    KuaishouClientVersion: Validation_1.ValidationConstants.STRING,
                     DataPackageLoadType: Validation_1.ValidationConstants.UINT,
                     AdSpaceType: Validation_1.ValidationConstants.UINT,
                     AdType: Validation_1.ValidationConstants.UINT,
@@ -16175,7 +16175,7 @@ var ReportInitializer = /** @class */ (function () {
             });
             ReportInitializer.reportActionHandler = new GameTransferReport_1.default({
                 logid: 21494,
-                protocolParams: ["PluginVersion", "IsDownloadCode", "NetworkType", "RunTimeMs", "StageType", "Scene", "LoadingPageType", "ActionType", "PositionID", "ActionID", "ExternInfo", "CodeType", "IsVisible", "BenchmarkLevel", "RuntimeType", "UnityVersion", "ConvertPluginVersion", "LibVersion", "WechatClientVersion", "DataPackageLoadType", "AdSpaceType", "AdType", "MaterialType", "ABTest", "InstanceId"],
+                protocolParams: ["PluginVersion", "IsDownloadCode", "NetworkType", "RunTimeMs", "StageType", "Scene", "LoadingPageType", "ActionType", "PositionID", "ActionID", "ExternInfo", "CodeType", "IsVisible", "BenchmarkLevel", "RuntimeType", "UnityVersion", "ConvertPluginVersion", "LibVersion", "KuaishouClientVersion", "DataPackageLoadType", "AdSpaceType", "AdType", "MaterialType", "ABTest", "InstanceId"],
                 schemas: {
                     PluginVersion: Validation_1.ValidationConstants.STRING,
                     IsDownloadCode: Validation_1.ValidationConstants.UINT,
@@ -16195,7 +16195,7 @@ var ReportInitializer = /** @class */ (function () {
                     UnityVersion: Validation_1.ValidationConstants.STRING,
                     ConvertPluginVersion: Validation_1.ValidationConstants.STRING,
                     LibVersion: Validation_1.ValidationConstants.STRING,
-                    WechatClientVersion: Validation_1.ValidationConstants.STRING,
+                    KuaishouClientVersion: Validation_1.ValidationConstants.STRING,
                     DataPackageLoadType: Validation_1.ValidationConstants.UINT,
                     AdSpaceType: Validation_1.ValidationConstants.UINT,
                     AdType: Validation_1.ValidationConstants.UINT,
@@ -16211,7 +16211,7 @@ var ReportInitializer = /** @class */ (function () {
         else {
             ReportInitializer.gameReporter = new KeyValueReporter_1.default({
                 logid: "KSGameWASMLaunchTime",
-                protocolParams: ["PluginVersion", "IsDownloadCode", "ReportType", "CostTimeMs", "NetworkType", "RunTimeMs", "PreloadedSize", "Scene", "LoadingPageType", "ExternInfo", "CodeType", "IsVisible", "BenchmarkLevel", "RuntimeType", "UnityVersion", "ConvertPluginVersion", "LibVersion", "WechatClientVersion", "DataPackageLoadType", "AdSpaceType", "AdType", "MaterialType", "ABTest", "InstanceId"],
+                protocolParams: ["PluginVersion", "IsDownloadCode", "ReportType", "CostTimeMs", "NetworkType", "RunTimeMs", "PreloadedSize", "Scene", "LoadingPageType", "ExternInfo", "CodeType", "IsVisible", "BenchmarkLevel", "RuntimeType", "UnityVersion", "ConvertPluginVersion", "LibVersion", "KuaishouClientVersion", "DataPackageLoadType", "AdSpaceType", "AdType", "MaterialType", "ABTest", "InstanceId"],
                 schemas: {
                     PluginVersion: Validation_1.ValidationConstants.STRING,
                     IsDownloadCode: Validation_1.ValidationConstants.UINT,
@@ -16230,7 +16230,7 @@ var ReportInitializer = /** @class */ (function () {
                     UnityVersion: Validation_1.ValidationConstants.STRING,
                     ConvertPluginVersion: Validation_1.ValidationConstants.STRING,
                     LibVersion: Validation_1.ValidationConstants.STRING,
-                    WechatClientVersion: Validation_1.ValidationConstants.STRING,
+                    KuaishouClientVersion: Validation_1.ValidationConstants.STRING,
                     DataPackageLoadType: Validation_1.ValidationConstants.UINT,
                     AdSpaceType: Validation_1.ValidationConstants.UINT,
                     AdType: Validation_1.ValidationConstants.UINT,
@@ -16242,7 +16242,7 @@ var ReportInitializer = /** @class */ (function () {
             });
             ReportInitializer.remoteReporter = new KeyValueReporter_1.default({
                 logid: "KSGameWASMLaunchException",
-                protocolParams: ["PluginVersion", "NetworkType", "IsDownloadCode", "ReportType", "ErrorMsg", "RunTimeMs", "Scene", "LoadingPageType", "ExternInfo", "CodeType", "ErrorType", "IsVisible", "BenchmarkLevel", "RuntimeType", "UnityVersion", "ConvertPluginVersion", "LibVersion", "WechatClientVersion", "DataPackageLoadType", "AdSpaceType", "AdType", "MaterialType", "ABTest", "InstanceId"],
+                protocolParams: ["PluginVersion", "NetworkType", "IsDownloadCode", "ReportType", "ErrorMsg", "RunTimeMs", "Scene", "LoadingPageType", "ExternInfo", "CodeType", "ErrorType", "IsVisible", "BenchmarkLevel", "RuntimeType", "UnityVersion", "ConvertPluginVersion", "LibVersion", "KuaishouClientVersion", "DataPackageLoadType", "AdSpaceType", "AdType", "MaterialType", "ABTest", "InstanceId"],
                 schemas: {
                     PluginVersion: Validation_1.ValidationConstants.STRING,
                     NetworkType: Validation_1.ValidationConstants.STRING,
@@ -16261,7 +16261,7 @@ var ReportInitializer = /** @class */ (function () {
                     UnityVersion: Validation_1.ValidationConstants.STRING,
                     ConvertPluginVersion: Validation_1.ValidationConstants.STRING,
                     LibVersion: Validation_1.ValidationConstants.STRING,
-                    WechatClientVersion: Validation_1.ValidationConstants.STRING,
+                    KuaishouClientVersion: Validation_1.ValidationConstants.STRING,
                     DataPackageLoadType: Validation_1.ValidationConstants.UINT,
                     AdSpaceType: Validation_1.ValidationConstants.UINT,
                     AdType: Validation_1.ValidationConstants.UINT,
@@ -16273,7 +16273,7 @@ var ReportInitializer = /** @class */ (function () {
             });
             ReportInitializer.reportActionHandler = new KeyValueReporter_1.default({
                 logid: "KSGameWASMLaunchClose",
-                protocolParams: ["PluginVersion", "IsDownloadCode", "NetworkType", "RunTimeMs", "StageType", "Scene", "LoadingPageType", "ActionType", "PositionID", "ActionID", "ExternInfo", "CodeType", "IsVisible", "BenchmarkLevel", "RuntimeType", "UnityVersion", "ConvertPluginVersion", "LibVersion", "WechatClientVersion", "DataPackageLoadType", "AdSpaceType", "AdType", "MaterialType", "ABTest", "InstanceId"],
+                protocolParams: ["PluginVersion", "IsDownloadCode", "NetworkType", "RunTimeMs", "StageType", "Scene", "LoadingPageType", "ActionType", "PositionID", "ActionID", "ExternInfo", "CodeType", "IsVisible", "BenchmarkLevel", "RuntimeType", "UnityVersion", "ConvertPluginVersion", "LibVersion", "KuaishouClientVersion", "DataPackageLoadType", "AdSpaceType", "AdType", "MaterialType", "ABTest", "InstanceId"],
                 schemas: {
                     PluginVersion: Validation_1.ValidationConstants.STRING,
                     IsDownloadCode: Validation_1.ValidationConstants.UINT,
@@ -16293,7 +16293,7 @@ var ReportInitializer = /** @class */ (function () {
                     UnityVersion: Validation_1.ValidationConstants.STRING,
                     ConvertPluginVersion: Validation_1.ValidationConstants.STRING,
                     LibVersion: Validation_1.ValidationConstants.STRING,
-                    WechatClientVersion: Validation_1.ValidationConstants.STRING,
+                    KuaishouClientVersion: Validation_1.ValidationConstants.STRING,
                     DataPackageLoadType: Validation_1.ValidationConstants.UINT,
                     AdSpaceType: Validation_1.ValidationConstants.UINT,
                     AdType: Validation_1.ValidationConstants.UINT,
@@ -17222,7 +17222,7 @@ function getBase() {
                 UnityVersion: unityVersion,
                 ConvertPluginVersion: _convertPluginVersion,
                 LibVersion: systemInfo.SDKVersion,
-                WechatClientVersion: systemInfo.version,
+                KuaishouClientVersion: systemInfo.version,
                 InstanceId: GameGlobalVars_1.default.instanceId || "",
             });
             return [2 /*return*/, new Promise(function (cb) {
@@ -18237,7 +18237,7 @@ var UnityManager = /** @class */ (function () {
                         }, fileInitializationPromise));
                         if (!GameGlobalVars_1.default.isRelease) {
                             if (GameGlobalVars_1.default.isWkAndNewSDK && this.codeType !== Types_1.CodeType.codeSplit) {
-                                PluginLogger_1.default.pluginError("[开发阶段提示 不影响线上版本]高性能模式下不使用代码分包会严重影响性能, 请阅读高性能模式文档: \nhttps://github.com/wechat-miniprogram/minigame-unity-webgl-transform/blob/main/Design/iOSOptimization.md");
+                                PluginLogger_1.default.pluginError("[开发阶段提示 不影响线上版本]高性能模式下不使用代码分包会严重影响性能。");
                             }
                         }
                         _loadingCalculationIndex = new Utils_1.ObjectClassWrapper({
@@ -18642,7 +18642,7 @@ var UnityManager = /** @class */ (function () {
                     case 1:
                         _a.sent();
                         this.prepareModule();
-                        this.startCheckIs32Wechat();
+                        this.startCheckIs32Kuaishou();
                         patchManager = PatchManager_1.PatchManager.getInstance();
                         patchManager.updateCodeType(this.codeType === Types_1.CodeType.codeSplit);
                         gameWasmLoader = GameWasmLoader_1.default.getInstance();
@@ -18689,19 +18689,19 @@ var UnityManager = /** @class */ (function () {
             console.error('Error in startGame:', error);
         });
     };
-    UnityManager.prototype.startCheckIs32Wechat = function () {
+    UnityManager.prototype.startCheckIs32Kuaishou = function () {
         var _this = this;
         if (SystemEnvironmentVariables_1.default.systemInfo.abi && !SystemEnvironmentVariables_1.default.systemInfo.abi.includes("64")) {
             setTimeout(function () {
                 if (!_this.mainCalled) {
-                    PluginLogger_1.default.pluginError(DefaultLanguageMap_1.default.startCheckIs32Wechat_content);
+                    PluginLogger_1.default.pluginError(DefaultLanguageMap_1.default.startCheckIs32Kuaishou_content);
                     SystemEnvironmentVariables_1.default.tjInstance.showModal({
                         title: DefaultLanguageMap_1.default.reminder,
-                        content: DefaultLanguageMap_1.default.startCheckIs32Wechat_content,
+                        content: DefaultLanguageMap_1.default.startCheckIs32Kuaishou_content,
                         showCancel: false,
-                        confirmText: DefaultLanguageMap_1.default.startCheckIs32Wechat_confirm,
+                        confirmText: DefaultLanguageMap_1.default.startCheckIs32Kuaishou_confirm,
                         success: function () {
-                            SystemEnvironmentVariables_1.default.tjInstance.updateWeChatApp();
+                            SystemEnvironmentVariables_1.default.tjInstance.updateKuaishouApp();
                         },
                     });
                 }
@@ -19898,7 +19898,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var Types_1 = __webpack_require__(/*! ./Types */ "./src/lib/Types.ts");
 var SystemEnvironmentVariables_1 = __importDefault(__webpack_require__(/*! ./SystemEnvironmentVariables */ "./src/lib/SystemEnvironmentVariables.ts"));
-var videoElementPrefix = "wx_lac_opera_";
+var videoElementPrefix = "ks_lac_opera_";
 var VideoElementManager = /** @class */ (function () {
     function VideoElementManager() {
         var _a;

@@ -32,12 +32,12 @@ namespace KSWASM.editor
         
         public override string GetSubplatformLink()
         {
-            return "https://minihost.tuanjie.cn/help/docs/welcome";
+            return "";
         }
 
         public override string GetSubplatformTooltip()
         {
-            return "点击查看更多关于小游戏宿主";
+            return "点击查看更多关于快手小游戏";
         }
         
         private static bool MiniGameHostBuildPreprocess(BuildProfile buildProfile)
@@ -109,19 +109,10 @@ namespace KSWASM.editor
             {
                 var selection = Selection.objects;
                 KSEditorScriptObject config = settings.ToKSEditorScriptObject();
-                
-                // if (string.IsNullOrEmpty(config.ProjectConf.buildVersion) && string.IsNullOrEmpty(Application.version))
-                // {
-                //     Debug.LogError("版本不能为空。请填写版本，或者在 Player Settings 中填写 Version.");
-                //     return BuildMiniGameError.PlayerBuildFailed;
-                // }
+            
                 
                 config.buildOptions = options;
-                if (KSConvertCore.DoExport(config) == KSConvertCore.KSExportError.SUCCEED)
-                {
-                    var zipped = Path.Combine(settings.ProjectConf.DST, "game.zip");
-                    UnityUtil.ZipGame(zipped, Path.Combine(settings.ProjectConf.DST, "minigame"));
-                }
+                KSConvertCore.DoExport(config);
                 Selection.objects = selection;
             }
             else
