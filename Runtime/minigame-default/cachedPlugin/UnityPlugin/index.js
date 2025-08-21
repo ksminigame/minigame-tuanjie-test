@@ -1,4 +1,4 @@
-console.info("UnityPluginVersion: e82c8ebcc2de09344efee07d6cc81f7b38f50aaf");
+console.info("UnityPluginVersion: c4d21c06147baaa711adbd36b43e9400bd9f28d6");
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
@@ -3267,6 +3267,7 @@ var DataPackageLoader = /** @class */ (function (_super) {
     function DataPackageLoader() {
         var _this = _super.call(this) || this;
         _this.loadDataPackageFromSubpackage = false;
+        _this.demoPackage = false;
         _this.compressDataPackage = false;
         _this.retryCount = 1;
         _this.retryDuration = 1500;
@@ -3665,7 +3666,7 @@ var DataPackageLoader = /** @class */ (function (_super) {
                         eventTrigger = Events_1.EventTrigger.getInstance();
                         _a.label = 1;
                     case 1:
-                        _a.trys.push([1, 18, , 19]);
+                        _a.trys.push([1, 20, , 21]);
                         eventTrigger.triggerEvent(Types_1.GameEvents.AssetLoading, new Events_1.GameEventDetail(unityManager));
                         if (this.loadDataPackageFromSubpackage) {
                             PluginLogger_1.default.eventLog("通过小游戏分包加载资源", downloadFilename, ", 是否压缩=", this.compressDataPackage);
@@ -3676,7 +3677,7 @@ var DataPackageLoader = /** @class */ (function (_super) {
                         primaryDataCachePath = this.getPrimaryDataCachePath();
                         fileInfo = FileSystemManager_1.default.getFileInfo(primaryDataCachePath);
                         cachePath = void 0;
-                        if (!(primaryDataCachePath && (fileInfo === null || fileInfo === void 0 ? void 0 : fileInfo.size))) return [3 /*break*/, 4];
+                        if (!(primaryDataCachePath && (fileInfo === null || fileInfo === void 0 ? void 0 : fileInfo.size))) return [3 /*break*/, 5];
                         if (this.loadDataPackageFromSubpackage && !this.compressDataPackage) {
                             cachePath = "data-package/".concat(downloadFilename);
                         }
@@ -3685,24 +3686,27 @@ var DataPackageLoader = /** @class */ (function (_super) {
                         }
                         PluginLogger_1.default.eventLog("从缓存加载首包资源");
                         PluginLogger_1.default.pluginLog("加载路径: ", cachePath);
-                        if (!(this.loadDataPackageFromSubpackage && !this.compressDataPackage)) return [3 /*break*/, 3];
-                        return [4 /*yield*/, this.invokeLoadDataPackage(0)];
-                    case 2:
-                        _a.sent();
-                        _a.label = 3;
+                        if (!(this.loadDataPackageFromSubpackage && !this.compressDataPackage)) return [3 /*break*/, 4];
+                        if (!this.demoPackage) return [3 /*break*/, 2];
+                        PluginLogger_1.default.eventLog("游戏试玩包：使用缓存资源，跳过分包初始化");
+                        return [3 /*break*/, 4];
+                    case 2: return [4 /*yield*/, this.invokeLoadDataPackage(0)];
                     case 3:
+                        _a.sent();
+                        _a.label = 4;
+                    case 4:
                         unityManager.launchStage.setProgress(Types_1.GameLaunchStatus.LOAD_ASSETS, {
                             progress: 100,
                             status: Types_1.LaunchStageStatus.FULFILLED,
                         });
-                        return [3 /*break*/, 15];
-                    case 4:
-                        if (!(SystemEnvironmentVariables_1.default.enableOffline() && typeof SystemEnvironmentVariables_1.default.resolveOfflinePath === "function")) return [3 /*break*/, 8];
+                        return [3 /*break*/, 17];
+                    case 5:
+                        if (!(SystemEnvironmentVariables_1.default.enableOffline() && typeof SystemEnvironmentVariables_1.default.resolveOfflinePath === "function")) return [3 /*break*/, 9];
                         fileInput = (0, Utils_1.resolvePath)(GameGlobalVars_1.default.unityNamespace.DATA_CDN, this.downloadPath);
                         dataPackagePath = SystemEnvironmentVariables_1.default.resolveOfflinePath(fileInput);
-                        if (!this.compressDataPackage) return [3 /*break*/, 6];
+                        if (!this.compressDataPackage) return [3 /*break*/, 7];
                         return [4 /*yield*/, (0, Utils_1.handlePromise)(this.decompressPackage(dataPackagePath))];
-                    case 5:
+                    case 6:
                         results = _a.sent();
                         error = results[0];
                         if (error) {
@@ -3711,56 +3715,60 @@ var DataPackageLoader = /** @class */ (function (_super) {
                         else {
                             PluginLogger_1.default.eventLog("Offline mode: 解压资源包成功", cachePath);
                         }
-                        return [3 /*break*/, 7];
-                    case 6:
+                        return [3 /*break*/, 8];
+                    case 7:
                         this.cachePath = dataPackagePath;
                         PluginLogger_1.default.eventLog("Offline mode: Use local data package=" + this.cachePath);
-                        _a.label = 7;
-                    case 7:
+                        _a.label = 8;
+                    case 8:
                         cachePath = this.cachePath;
                         unityManager.launchStage.setProgress(Types_1.GameLaunchStatus.LOAD_ASSETS, {
                             progress: 100,
                             status: Types_1.LaunchStageStatus.FULFILLED,
                         });
-                        return [3 /*break*/, 15];
-                    case 8:
+                        return [3 /*break*/, 17];
+                    case 9:
                         PluginLogger_1.default.eventLog("首包资源无缓存，开始下载");
-                        if (!this.loadDataPackageFromSubpackage) return [3 /*break*/, 10];
+                        if (!this.demoPackage) return [3 /*break*/, 10];
+                        cachePath = "data-package/".concat(this.downloadFilename);
+                        return [3 /*break*/, 16];
+                    case 10:
+                        if (!this.loadDataPackageFromSubpackage) return [3 /*break*/, 12];
                         return [4 /*yield*/, (0, Utils_1.executePromiseWithRetry)(function (retryCount) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
                                 return [2 /*return*/, this.invokeLoadDataPackage(retryCount)];
                             }); }); }, this.retryCount, this.retryDuration)];
-                    case 9:
+                    case 11:
                         cachePath = _a.sent();
-                        return [3 /*break*/, 14];
-                    case 10:
-                        if (!(!SystemEnvironmentVariables_1.default.isWK || this.compressDataPackage)) return [3 /*break*/, 12];
+                        return [3 /*break*/, 16];
+                    case 12:
+                        if (!(!SystemEnvironmentVariables_1.default.isWK || this.compressDataPackage)) return [3 /*break*/, 14];
                         return [4 /*yield*/, (0, Utils_1.executePromiseWithRetry)(function (retryCount) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
                                 return [2 /*return*/, this.loadAssetsByDownloadFile(retryCount)];
                             }); }); }, this.retryCount, this.retryDuration)];
-                    case 11:
-                        cachePath = _a.sent();
-                        return [3 /*break*/, 14];
-                    case 12: return [4 /*yield*/, (0, Utils_1.executePromiseWithRetry)(function (retryCount) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-                            return [2 /*return*/, this.loadAssetsByXhr(retryCount)];
-                        }); }); }, this.retryCount, this.retryDuration)];
                     case 13:
                         cachePath = _a.sent();
-                        _a.label = 14;
-                    case 14:
+                        return [3 /*break*/, 16];
+                    case 14: return [4 /*yield*/, (0, Utils_1.executePromiseWithRetry)(function (retryCount) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
+                            return [2 /*return*/, this.loadAssetsByXhr(retryCount)];
+                        }); }); }, this.retryCount, this.retryDuration)];
+                    case 15:
+                        cachePath = _a.sent();
+                        _a.label = 16;
+                    case 16:
                         unityManager.launchStage.setProgress(Types_1.GameLaunchStatus.LOAD_ASSETS, {
                             progress: 100,
                             status: Types_1.LaunchStageStatus.FULFILLED,
                         });
-                        _a.label = 15;
-                    case 15:
-                        unityManager.loadingCount -= 1;
-                        PluginLogger_1.default.eventLog("loadDataPackage cachePath=" + cachePath);
-                        if (!cachePath) return [3 /*break*/, 17];
-                        return [4 /*yield*/, this.readDataPackage(cachePath)];
-                    case 16:
-                        _a.sent();
                         _a.label = 17;
                     case 17:
+                        unityManager.loadingCount -= 1;
+                        PluginLogger_1.default.eventLog("loadDataPackage cachePath=" + cachePath);
+                        if (!cachePath) return [3 /*break*/, 19];
+                        return [4 /*yield*/, this.readDataPackage(cachePath)];
+                    case 18:
+                        _a.sent();
+                        _a.label = 19;
+                    case 19:
                         this.dataPackageLoaded = true;
                         PluginMonitor_1.default.getInstance().commonMonitor.recordAsset({
                             contentLength: unityManager.gameInstance.Module.rawData.byteLength,
@@ -3768,11 +3776,11 @@ var DataPackageLoader = /** @class */ (function (_super) {
                         eventTrigger.triggerEvent(Types_1.GameEvents.AssetLoaded, new Events_1.GameEventDetail(unityManager));
                         this.processRawData();
                         return [2 /*return*/, Promise.resolve()];
-                    case 18:
+                    case 20:
                         error_3 = _a.sent();
                         PluginLogger_1.default.pluginError("加载资源异常 ", error_3.errMsg || error_3.message, error_3);
                         return [2 /*return*/, Promise.reject(error_3)];
-                    case 19: return [2 /*return*/];
+                    case 21: return [2 /*return*/];
                 }
             });
         });
@@ -3940,9 +3948,10 @@ var DataPackageLoader = /** @class */ (function (_super) {
     };
     DataPackageLoader.prototype.initConfig = function (dataPackageConfig) {
         if (dataPackageConfig === void 0) { dataPackageConfig = {}; }
-        var loadDataPackageFromSubpackage = dataPackageConfig.loadDataPackageFromSubpackage, compressDataPackage = dataPackageConfig.compressDataPackage;
+        var loadDataPackageFromSubpackage = dataPackageConfig.loadDataPackageFromSubpackage, compressDataPackage = dataPackageConfig.compressDataPackage, demoPackage = dataPackageConfig.demoPackage;
         this.loadDataPackageFromSubpackage = !!loadDataPackageFromSubpackage;
         this.compressDataPackage = !!compressDataPackage;
+        this.demoPackage = !!demoPackage;
         var _a = GameGlobalVars_1.default.unityNamespace, dataFileMD5 = _a.DATA_FILE_MD5, gameName = _a.GAME_NAME, dataFileSize = _a.DATA_FILE_SIZE, optionalDataFileSize = _a.OPT_DATA_FILE_SIZE, _b = _a.dataFileSubPrefix, dataFileSubPrefix = _b === void 0 ? "" : _b;
         this.md5 = dataFileMD5;
         this.cacheFilename = "".concat(this.md5, ".").concat(gameName, ".data.unityweb.bin");
@@ -9036,6 +9045,7 @@ var GameWasmLoader = /** @class */ (function (_super) {
     function GameWasmLoader() {
         var _this = _super.call(this) || this;
         _this.subWasmModuleName = "wasmcode1";
+        _this.demoPackage = false;
         _this.retryCount = 1;
         _this.retryDuration = 1500;
         _this.pendingDuration = 60000;
@@ -9144,44 +9154,57 @@ var GameWasmLoader = /** @class */ (function (_super) {
                             }
                         }, _this.pendingDuration);
                     }).then(function () {
-                        var unityManager = _this.unityManager;
-                        if (unityManager.loadingPageType === Types_1.LoadingPageType.COVER_VIEW) {
-                            unityManager.loadingPage.showCompileWasm();
-                        }
-                        unityManager.launchStage.setProgress(Types_1.GameLaunchStatus.COMPILE_WASM, {
-                            status: Types_1.LaunchStageStatus.PENDING,
-                        });
-                        PluginLogger_1.default.eventLog("start invoke UnityModule");
-                        if (GameGlobalVars_1.default.unityNamespace.useDotnetRuntime) {
-                            PluginLogger_1.default.eventLog("invoke UnityModule for dotnet");
-                            unityManager.gameInstance.Module.preInit = [
-                                function () {
-                                    PluginLogger_1.default.eventLog("UnityModule preInit");
-                                    _this.unityModuleInited = true;
-                                    eventTrigger.triggerEvent(Types_1.GameEvents.ModulePrepared);
-                                    DataPackageLoader_1.default.processRawData();
-                                },
-                            ];
-                            GameGlobalVars_1.default.unityNamespace.UnityModule(unityManager.gameInstance.Module);
-                        }
-                        else {
-                            PluginLogger_1.default.eventLog("invoke UnityModule for il2cpp");
-                            GameGlobalVars_1.default.unityNamespace.UnityModule(unityManager.gameInstance.Module);
-                            _this.unityModuleInited = true;
-                            eventTrigger.triggerEvent(Types_1.GameEvents.ModulePrepared);
-                            DataPackageLoader_1.default.processRawData();
-                        }
+                        _this.initializeUnityModule();
                     })];
             });
         });
     };
-    GameWasmLoader.prototype.init = function (unityManager) {
+    GameWasmLoader.prototype.initializeUnityModule = function () {
+        var _this = this;
+        var eventTrigger = Events_1.EventTrigger.getInstance();
+        var unityManager = this.unityManager;
+        if (unityManager.loadingPageType === Types_1.LoadingPageType.COVER_VIEW) {
+            unityManager.loadingPage.showCompileWasm();
+        }
+        unityManager.launchStage.setProgress(Types_1.GameLaunchStatus.COMPILE_WASM, {
+            status: Types_1.LaunchStageStatus.PENDING,
+        });
+        PluginLogger_1.default.eventLog("start invoke UnityModule");
+        if (GameGlobalVars_1.default.unityNamespace.useDotnetRuntime) {
+            PluginLogger_1.default.eventLog("invoke UnityModule for dotnet");
+            unityManager.gameInstance.Module.preInit = [
+                function () {
+                    PluginLogger_1.default.eventLog("UnityModule preInit");
+                    _this.unityModuleInited = true;
+                    eventTrigger.triggerEvent(Types_1.GameEvents.ModulePrepared);
+                    DataPackageLoader_1.default.processRawData();
+                },
+            ];
+            GameGlobalVars_1.default.unityNamespace.UnityModule(unityManager.gameInstance.Module);
+        }
+        else {
+            PluginLogger_1.default.eventLog("invoke UnityModule for il2cpp");
+            GameGlobalVars_1.default.unityNamespace.UnityModule(unityManager.gameInstance.Module);
+            this.unityModuleInited = true;
+            eventTrigger.triggerEvent(Types_1.GameEvents.ModulePrepared);
+            DataPackageLoader_1.default.processRawData();
+        }
+    };
+    GameWasmLoader.prototype.init = function (unityManager, config) {
         this.unityManager = unityManager;
-        this.initConfig();
+        this.initConfig(config);
     };
     GameWasmLoader.prototype.loadWasmCode = function () {
         var _this = this;
-        return (0, Utils_1.executePromiseWithRetry)(function (retryCount) { return _this.invokeLoadWasmCode(retryCount); }, this.retryCount, this.retryDuration);
+        if (this.demoPackage) {
+            var unityManager = this.unityManager;
+            unityManager.loadingCount -= 1;
+            this.initializeUnityModule();
+            return Promise.resolve();
+        }
+        else {
+            return (0, Utils_1.executePromiseWithRetry)(function (retryCount) { return _this.invokeLoadWasmCode(retryCount); }, this.retryCount, this.retryDuration);
+        }
     };
     GameWasmLoader.prototype.parallelFetchSubWasm = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -9244,7 +9267,8 @@ var GameWasmLoader = /** @class */ (function (_super) {
             });
         });
     };
-    GameWasmLoader.prototype.initConfig = function () {
+    GameWasmLoader.prototype.initConfig = function (dataPackageConfig) {
+        if (dataPackageConfig === void 0) { dataPackageConfig = {}; }
         var codeSplit = GameGlobalVars_1.default.isWkAndNewSDK && this.unityManager.codeType === Types_1.CodeType.codeSplit;
         var instantiateWasm = GameGlobalVars_1.default.unityNamespace.instantiateWasm;
         if (!instantiateWasm && codeSplit) {
@@ -9254,7 +9278,14 @@ var GameWasmLoader = /** @class */ (function (_super) {
             this.moduleName = "wasmcode";
         }
         this.md5 = GameGlobalVars_1.default.unityNamespace.CODE_FILE_MD5;
-        this.filename = "".concat(this.md5, ".").concat(GameGlobalVars_1.default.unityNamespace.GAME_NAME, ".wasm.code.unityweb.wasm.br");
+        if (GameGlobalVars_1.default.unityNamespace.compressWasm) {
+            this.filename = "".concat(this.md5, ".").concat(GameGlobalVars_1.default.unityNamespace.GAME_NAME, ".wasm.code.unityweb.wasm.br");
+        }
+        else {
+            this.filename = "".concat(this.md5, ".").concat(GameGlobalVars_1.default.unityNamespace.GAME_NAME, ".wasm.code.unityweb.wasm");
+        }
+        var demoPackage = dataPackageConfig.demoPackage;
+        this.demoPackage = !!demoPackage;
         this.wasmPath = "".concat(this.moduleName, "/").concat(this.filename);
         this.unityManager.gameInstance.Module.wasmPath = this.wasmPath;
     };
@@ -18376,6 +18407,7 @@ var UnityManager = /** @class */ (function () {
             "preloadDataList",
             "loadDataPackageFromSubpackage",
             "compressDataPackage",
+            "demoPackage",
             "contextConfig",
         ]);
         this.init(options);
@@ -18389,9 +18421,10 @@ var UnityManager = /** @class */ (function () {
     };
     UnityManager.prototype.init = function (_options) {
         var _this = this;
-        var videoManager = _options.videoManager, finalPageVideoUrl = _options.finalPageVideoUrl, pageManager = _options.pageManager, loadingPageConfig = _options.loadingPageConfig, useCoverView = _options.useCoverView, hideAfterCallmain = _options.hideAfterCallmain, preloadDataList = _options.preloadDataList, loadDataPackageFromSubpackage = _options.loadDataPackageFromSubpackage, compressDataPackage = _options.compressDataPackage, _a = _options.contextConfig, contextConfig = _a === void 0 ? {} : _a;
+        var videoManager = _options.videoManager, finalPageVideoUrl = _options.finalPageVideoUrl, pageManager = _options.pageManager, loadingPageConfig = _options.loadingPageConfig, useCoverView = _options.useCoverView, hideAfterCallmain = _options.hideAfterCallmain, preloadDataList = _options.preloadDataList, loadDataPackageFromSubpackage = _options.loadDataPackageFromSubpackage, compressDataPackage = _options.compressDataPackage, demoPackage = _options.demoPackage, _a = _options.contextConfig, contextConfig = _a === void 0 ? {} : _a;
         var isLoadingDataFromSubpackage = loadDataPackageFromSubpackage !== undefined && loadDataPackageFromSubpackage;
         var isCompressDataPackageEnabled = compressDataPackage !== undefined && compressDataPackage;
+        var isDemoPackage = demoPackage !== undefined && demoPackage;
         if (UnityManager.instance) {
             return;
         }
@@ -18448,9 +18481,10 @@ var UnityManager = /** @class */ (function () {
         DataPackageLoader_1.default.init(this, {
             loadDataPackageFromSubpackage: isLoadingDataFromSubpackage,
             compressDataPackage: isCompressDataPackageEnabled,
+            demoPackage: isDemoPackage,
         });
         var gameWasmLoader = GameWasmLoader_1.default.getInstance();
-        gameWasmLoader.init(this);
+        gameWasmLoader.init(this, { demoPackage: isDemoPackage });
         AssetsLoader_1.default.init(this);
         GameGlobalVars_1.default.unityNamespace.needDownloadDataPackage = AssetsLoader_1.default.needDownload;
         if (preloadDataList) {
