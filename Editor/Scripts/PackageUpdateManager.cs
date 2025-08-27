@@ -9,10 +9,8 @@ namespace KSWASM.editor
 {
     public class PackageUpdateManager
     {
-        // private const string gitRepoUrl = "https://github.com/ksminigame/minigame-tuanjie-transform-sdk";
-        // private const string packageJsonUrl = "https://raw.githubusercontent.com/ksminigame/minigame-tuanjie-transform-sdk/refs/heads/main/package.json";
-        private const string gitRepoUrl = "https://github.com/ksminigame/minigame-tuanjie-test";
-        private const string packageJsonUrl = "https://raw.githubusercontent.com/ksminigame/minigame-tuanjie-test/refs/heads/main/package.json";
+        private const string gitRepoUrl = "https://github.com/ksminigame/minigame-tuanjie-transform-sdk";
+        private const string packageJsonUrl = "https://raw.githubusercontent.com/ksminigame/minigame-tuanjie-transform-sdk/refs/heads/main/package.json";
 
         private static bool isChecked = false;
         private static bool isWindow = false;
