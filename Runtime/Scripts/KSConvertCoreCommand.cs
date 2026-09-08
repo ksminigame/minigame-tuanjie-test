@@ -17,7 +17,7 @@ using UnityEngine.Rendering;
 using Debug = UnityEngine.Debug;
 using JsonWriter = LitJson.JsonWriter;
 
-namespace KSWASM.editor
+namespace KSWASM
 {
     public class KSConvertCoreCommand
     {
