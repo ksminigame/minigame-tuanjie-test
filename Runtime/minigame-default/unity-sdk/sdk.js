@@ -4002,6 +4002,54 @@ export default {
             ks.offFeedStatusChange(v);
         });
     },
+    KS_StoreFeedData(conf, callbackId) {
+        const config = formatJsonStr(conf);
+        ks.storeFeedData({
+            ...config,
+            success(res) {
+                formatResponse('GeneralCallbackResult', res);
+                moduleHelper.send('StoreFeedDataCallback', JSON.stringify({
+                    callbackId, type: 'success', res: JSON.stringify(res),
+                }));
+            },
+            fail(res) {
+                formatResponse('GeneralCallbackResult', res);
+                moduleHelper.send('StoreFeedDataCallback', JSON.stringify({
+                    callbackId, type: 'fail', res: JSON.stringify(res),
+                }));
+            },
+            complete(res) {
+                formatResponse('GeneralCallbackResult', res);
+                moduleHelper.send('StoreFeedDataCallback', JSON.stringify({
+                    callbackId, type: 'complete', res: JSON.stringify(res),
+                }));
+            },
+        });
+    },
+    KS_GetFeedData(conf, callbackId) {
+        const config = formatJsonStr(conf);
+        ks.getFeedData({
+            ...config,
+            success(res) {
+                formatResponse('GetFeedDataSuccessCallbackResult', res);
+                moduleHelper.send('GetFeedDataCallback', JSON.stringify({
+                    callbackId, type: 'success', res: JSON.stringify(res),
+                }));
+            },
+            fail(res) {
+                formatResponse('GeneralCallbackResult', res);
+                moduleHelper.send('GetFeedDataCallback', JSON.stringify({
+                    callbackId, type: 'fail', res: JSON.stringify(res),
+                }));
+            },
+            complete(res) {
+                formatResponse('GeneralCallbackResult', res);
+                moduleHelper.send('GetFeedDataCallback', JSON.stringify({
+                    callbackId, type: 'complete', res: JSON.stringify(res),
+                }));
+            },
+        });
+    },
     KS_OnUnhandledRejection() {
         console.log("KS_OnUnhandledRejection is not supported");
         // if (!OnUnhandledRejectionList) {
