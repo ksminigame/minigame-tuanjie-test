@@ -4013,13 +4013,13 @@ export default {
                 }));
             },
             fail(res) {
-                formatResponse('GeneralCallbackResult', res);
+                formatResponse('RequestFailCallbackErr', res);
                 moduleHelper.send('StoreFeedDataCallback', JSON.stringify({
                     callbackId, type: 'fail', res: JSON.stringify(res),
                 }));
             },
             complete(res) {
-                formatResponse('GeneralCallbackResult', res);
+                formatResponse('RequestFailCallbackErr', res);
                 moduleHelper.send('StoreFeedDataCallback', JSON.stringify({
                     callbackId, type: 'complete', res: JSON.stringify(res),
                 }));
@@ -4037,13 +4037,13 @@ export default {
                 }));
             },
             fail(res) {
-                formatResponse('GeneralCallbackResult', res);
+                formatResponse('RequestFailCallbackErr', res);
                 moduleHelper.send('GetFeedDataCallback', JSON.stringify({
                     callbackId, type: 'fail', res: JSON.stringify(res),
                 }));
             },
             complete(res) {
-                formatResponse('GeneralCallbackResult', res);
+                formatResponse('RequestFailCallbackErr', res);
                 moduleHelper.send('GetFeedDataCallback', JSON.stringify({
                     callbackId, type: 'complete', res: JSON.stringify(res),
                 }));

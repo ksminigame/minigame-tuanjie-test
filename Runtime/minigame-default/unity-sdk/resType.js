@@ -675,7 +675,7 @@ export const ResType = {
     },
     RequestFailCallbackErr: {
         errMsg: 'string',
-        errno: 'number',
+        errNo: 'number',
     },
     LoginSuccessCallbackResult: {
         code: 'string',
