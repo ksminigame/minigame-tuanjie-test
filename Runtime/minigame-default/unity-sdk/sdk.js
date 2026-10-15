@@ -4004,6 +4004,10 @@ export default {
     },
     KS_StoreFeedData(conf, callbackId) {
         const config = formatJsonStr(conf);
+        if ('Operator' in config) {
+          config['operator'] = config.Operator;
+          delete config.Operator;
+        }
         ks.storeFeedData({
             ...config,
             success(res) {
